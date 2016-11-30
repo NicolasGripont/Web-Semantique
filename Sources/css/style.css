@@ -11,3 +11,19 @@ body {
 h1 {
 	text-align: center;
 }
+
+div#research {
+	position: absolute;
+	width: 1000px;
+    top: 50%;
+    text-align: center;
+    margin: auto;
+    display: flex;       /*alignement sur la ligne*/
+    align-items: center; /*alignement sur la ligne*/
+	
+}
+
+div#research img {
+  float: left;
+  width: 100%;
+}
