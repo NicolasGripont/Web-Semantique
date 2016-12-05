@@ -11,12 +11,12 @@ $(document).ready(function(){
     });
 
     $('#search_bar').keyup(function(){
-     $('div#research ').css("position", "relative");
-     $('div#logo').removeClass('logoCenter');
-     $('div#logo').addClass('logoHaut');
+
     });
 
     $('#search_button').click(function() {
+        $('div#logo').removeClass('logoCenter');
+        $('div#logo').addClass('logoHaut');
 
     });
 

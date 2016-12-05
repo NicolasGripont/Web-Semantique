@@ -12,25 +12,36 @@ h1 {
 	text-align: center;
 }
 
-div#research {
-	position: absolute;
-	width: 1000px;
-    top: 50%;
-    text-align: center;
-    margin: auto;
-    display: flex;       /*alignement sur la ligne*/
-    align-items: center; /*alignement sur la ligne*/
-	
-}
-
 .logoCenter {
-	margin-top: 251px;
+	margin-top: 30%;
 	text-align: center;
-  	width: 100%;
+	animation-duration: 3s;
+  animation-name: descente;
 }
 
 .logoHaut {
-	margin-top: 0px;
+	animation-duration: 3s;
+  	animation-name: monter;
 	text-align: center;
-  	width: 100%;
+}
+
+/* annimation */
+@keyframes descente {
+  from {
+    margin-top: 0%; 
+  }
+
+  to {
+    margin-top: 30%;
+  }
+}
+
+@keyframes monter {
+  from {
+    margin-top: 30%; 
+  }
+
+  to {
+    margin-top: 0%;
+  }
 }
