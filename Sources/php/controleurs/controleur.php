@@ -13,7 +13,7 @@ require_once '../modeles/Services/custom_search.php';
 
 // echo $result;
 
-$c = new CustomSearch("tata toto");
-$c->executer();
+$c = new CustomSearch("cassis");
+$c->execute();
 
 ?>

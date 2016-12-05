@@ -12,62 +12,77 @@ class CustomSearch
 	private static $cx = "016014982774890444637:tirltd59_os";
 
 	//string contenant les mots clés de la recherche
-	private $querry;
+	private $query;
 
-	private $jsonResult;
+	private $links;
+
+	private $nbLinks;
 	
-	function __construct($querry)
+	function __construct($query)
 	{
-		$this->querry = str_replace(" ", "+", $querry);
+		$this->query = str_replace(" ", "+", $query);
+		$links = array();
 	}
 
-	function executer() {
-		$request = curl_init(self::$baseUrl."?key=".self::$key."&cx=".self::$cx."&q=".$this->querry);
+	function execute() {
+		$jsonResult = $this->execute_request();
+		$this->load_links($jsonResult);
+		$this->get_links_results();
+	}
+
+	private function execute_request() {
+		$request = curl_init(self::$baseUrl."?key=".self::$key."&cx=".self::$cx."&q=".$this->query);
 		curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($request, CURLOPT_HTTPHEADER, array(
 		    'Accept: application/json'
 		));	
 		curl_setopt($request, CURLOPT_TIMEOUT, 5);
 		curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
-
 		$resultAsString = curl_exec($request);
 		curl_close($request);
 
+		$jsonResult = json_decode(utf8_encode($resultAsString),true);
 
-		$this->jsonResult = json_decode(utf8_encode($resultAsString),true);
-		echo $this->jsonResult;
-		foreach ($this->jsonResult["items"] as $key => $value) {
-			echo ($value);
+		return $jsonResult;
+	}
+
+	private function load_links($jsonResult) {
+		$nbLinks = 0;
+		foreach ($jsonResult["items"] as $key => $value) {
+			$this->links[$nbLinks] = $value["link"];
+			$nbLinks = $nbLinks+1;
+		}
+		$this->nbLinks = $nbLinks;
+		for ($i=0; $i < $this->nbLinks; $i++) { 
+			echo $this->links[$i]."<br/>";
 		}
 	}
 
+	private function get_links_results() {
+		// for ($i=0; $i < $this->nbLinks; $i++) { 
+			// $request = curl_init($this->links[$i]);
+			echo ">".$this->links[0];
+			$request = curl_init($this->links[0]);
+			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
+			curl_setopt($request, CURLOPT_TIMEOUT, 5);
+			curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
+			$resultAsString = curl_exec($request);
+			curl_close($request);
+			// $dom = new DomDocument();
+			// $dom->loadXML($resultAsString);
+
+
+			// print_r($dom);
+			// $listeP = $dom->getElementsByTagName('div');
+			// print_r($listeP);
+			// foreach ($listeP as $p) {
+			// 	echo $p->nodeValue."<br/>";
+			// }
+
+		// }
+		
+	}
+
 }
-
-
-
-// $ch = curl_init('http://spotlight.sztaki.hu:2222/rest/annotate?text=' . $textTranform . "&confidence=" . $confidence);
-// 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-// 			    'Accept: application/json'
-// 			));
-// 			curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-// 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-// 			//execute post
-// 			$result = curl_exec($ch);
-// 			//close connection
-// 			curl_close($ch);
-// 			$array = json_decode($result,TRUE);
-// 			print_r($array);
-// 			if(!empty($array) && array_key_exists("Resources",$array)){
-// 				$results = $array["Resources"];
-// 				$output = array();
-// 				foreach ($results as $r) {
-// 				  $output[$r["@surfaceForm"]][] = array("URI"=>$r["@URI"]);
-// 				}
-// 				return $output;
-// 			} else {
-// 				return;
-// 			}
-
 
 ?>
