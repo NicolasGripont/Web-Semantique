@@ -23,7 +23,14 @@ div#research {
 	
 }
 
-div#research img {
-  float: left;
-  width: 100%;
+.logoCenter {
+	margin-top: 251px;
+	text-align: center;
+  	width: 100%;
+}
+
+.logoHaut {
+	margin-top: 0px;
+	text-align: center;
+  	width: 100%;
 }

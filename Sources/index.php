@@ -9,18 +9,17 @@
 
 	<body>
 		<div id="container">
-			<h1>DiVin</h1>
-			<div id="research" class="row">
-				<div class="col-md-2">
+				<div id="logo" class="logoCenter">
 					<img src="pictures/logo.png" alt="logo" />
 				</div>
-				<div class="col-md-8">
+			<div id="research" class="row">
+				<div class="col-md-10">
 					<form>
 	        		<input id="search_bar" type="text" class="input-sm form-control" placeholder="Recherche">
 	        		</form>
 				</div>
 				<div class="col-md-2">
-	        		<button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Chercher</button>
+	        		<button id = "search_button"type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Chercher</button>
 				</div>
 	      	</div>
 		</div>
