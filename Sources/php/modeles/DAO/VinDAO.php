@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__ . '/../../model/Beans/Vin.php');
-require_once(__DIR__ . '/../../model/Services/connexion.php');
+require_once(__DIR__ . '/../../modeles/Beans/Vin.php');
+require_once(__DIR__ . '/../../modeles/Services/connexion.php');
 
 
 class VinDAO
@@ -36,7 +36,7 @@ class VinDAO
         while ($row = $requete->fetch()) {
         	
         	$vin = new Vin();
-        	$vin->setName($row["name"]);
+        	$vin->setName(utf8_encode($row["name"]));
     		$donnees[]=$vin;
   		}
 
