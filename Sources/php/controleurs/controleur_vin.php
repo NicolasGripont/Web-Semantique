@@ -1,7 +1,7 @@
 <?php
 //ini_set('display_errors',1);
-require_once(__DIR__ . "/../model/Services/service_vin.php");
-require_once(__DIR__ . "/../model/Services/connexion.php");
+require_once(__DIR__ . "/../modeles/Services/service_vin.php");
+require_once(__DIR__ . "/../modeles/Services/connexion.php");
 
 $VinService = new VinService();
 $listNameOfWine = $VinService->RecoverNamesWines();
