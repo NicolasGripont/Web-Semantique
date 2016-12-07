@@ -1,7 +1,5 @@
 <?php
 
-ini_set('display_errors',1);
-
 require_once('services/custom_search.php');
 require_once("services/service_wine.php");
 require_once("services/connection.php");
