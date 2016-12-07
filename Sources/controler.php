@@ -1,4 +1,7 @@
 <?php
+
+ini_set('display_errors',1);
+
 require_once('services/custom_search.php');
 require_once("services/service_wine.php");
 require_once("services/connection.php");
@@ -13,6 +16,7 @@ if($page == "search") {
 	$listNameOfWine = $VinService->RecoverNamesWines();
 	if ($listNameOfWine) {
 	    echo json_encode($listNameOfWine);
+	    return;
 	} 
 }
 
