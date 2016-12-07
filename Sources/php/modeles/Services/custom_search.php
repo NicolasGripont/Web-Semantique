@@ -26,6 +26,7 @@ class CustomSearch
 
 	function execute() {
 		$jsonResult = $this->execute_request();
+		echo $jsonResult;
 		$this->load_links($jsonResult);
 		$this->get_links_results();
 	}
@@ -38,9 +39,9 @@ class CustomSearch
 		));	
 		curl_setopt($request, CURLOPT_TIMEOUT, 5);
 		curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 		$resultAsString = curl_exec($request);
 		curl_close($request);
-
 		$jsonResult = json_decode(utf8_encode($resultAsString),true);
 
 		return $jsonResult;
