@@ -16,9 +16,18 @@ class CustomSearch
 	//string contenant les mots clés de la recherche
 	private $query;
 
-	private $links;
+	private $links = ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
+						"http://www.infinivin.com/en/domaine-du-paternel-cassis-white-wine-2015-801.html",
+						"http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2015-886.html"];
+// http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-wine-2015-796.html
+// http://www.infinivin.com/en/domaine-du-paternel-cassis-blanc-2013-60.html
+// http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-rose-wine-2015-888.html
+// http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2013-493.html
+// http://www.infinivin.com/en/magnum-domaine-du-paternel-cassis-white-wine-2015-917.html
+// http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2014-902.html
+// http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-2013-59.html;
 
-	private $nbLinks;
+	private $nbLinks = 3;
 
 	public $elements;
 	
@@ -30,8 +39,8 @@ class CustomSearch
 	}
 
 	function execute() {
-		$jsonResult = $this->execute_request();
-		$this->load_links($jsonResult);
+		// $jsonResult = $this->execute_request();
+		// $this->load_links($jsonResult);
 		$this->get_links_results();
 	}
 
@@ -92,7 +101,21 @@ class CustomSearch
 					$arrayStrong[] = $strong->nodeValue;
 				}
 			}
+
+			$div = $dom->getElementById('proImg');
+			print_r($div->getElementsByTagName('img')[0]->getAttribute('src'));
+
+			// $imgs = $dom->getElementsByTagName('img');
+			// foreach ($imgs as $img) {
+
+			// 	print_r($img->getAttribute('src'));
+				
+			// }
+			echo "<br/>";
+			
 		}
+
+
 				
 		$elements["p"] = $arrayP;
 		$elements["strong"] = $arrayStrong;
