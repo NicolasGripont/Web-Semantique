@@ -1,7 +1,7 @@
 
 
 <?php
-
+require_once("link.php");
 /**
 * 
 */
@@ -16,7 +16,7 @@ class CustomSearch
 	//string contenant les mots clés de la recherche
 	private $query;
 
-	private $links = ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
+	private $urls = ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
 						"http://www.infinivin.com/en/domaine-du-paternel-cassis-white-wine-2015-801.html",
 						"http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2015-886.html"];
 // http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-wine-2015-796.html
@@ -27,21 +27,24 @@ class CustomSearch
 // http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2014-902.html
 // http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-2013-59.html;
 
-	private $nbLinks = 3;
+	private $links;
+
+	private $nbUrls = 3;
 
 	public $elements;
 	
 	function __construct($query)
 	{
 		$this->query = str_replace(" ", "+", $query);
-		$links = array();
+		$urls = array();
 		$elements =  array();
+		$links = array();
 	}
 
 	function execute() {
 		// $jsonResult = $this->execute_request();
-		// $this->load_links($jsonResult);
-		$this->get_links_results();
+		// $this->load_urls($jsonResult);
+		$this->get_urls_results();
 	}
 
 	private function execute_request() {
@@ -60,24 +63,24 @@ class CustomSearch
 		return $jsonResult;
 	}
 
-	private function load_links($jsonResult) {
-		$nbLinks = 0;
+	private function load_urls($jsonResult) {
+		$nbUrls = 0;
 		foreach ($jsonResult["items"] as $key => $value) {
-			$this->links[$nbLinks] = $value["link"];
-			$nbLinks = $nbLinks+1;
+			$this->urls[$nbUrls] = $value["link"];
+			$nbUrls = $nbUrls+1;
 		}
-		$this->nbLinks = $nbLinks;
-		for ($i=0; $i < $this->nbLinks; $i++) { 
-			echo $this->links[$i]."<br/>";
+		$this->nbUrls = $nbUrls;
+		for ($i=0; $i < $this->nbUrls; $i++) { 
+			echo $this->urls[$i]."<br/>";
 		}
 	}
 
-	private function get_links_results() {
+	private function get_urls_results() {
 		$arrayP = array();
 		$arrayStrong = array();
 
-		for ($i=0; $i < $this->nbLinks; $i++) { 
-			$request = curl_init($this->links[$i]);
+		for ($i=0; $i < $this->nbUrls; $i++) { 
+			$request = curl_init($this->urls[$i]);
 			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
 			curl_setopt($request, CURLOPT_TIMEOUT, 5);
 			curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
@@ -86,50 +89,29 @@ class CustomSearch
 
 			$dom = new DomDocument();
 			$dom->loadHTML($resultAsString);
-
-			$listeP = $dom->getElementsByTagName('p');
-			foreach ($listeP as $p) {
-				if(!empty($p->nodeValue)) {
-					$arrayP[] = $p->nodeValue;
-				}
-			}
-
-			$listeStrong = $dom->getElementsByTagName('strong');
-			foreach ($listeStrong as $strong) {
-				if(!empty($p->nodeValue)) {
-					$arrayStrong[] = $strong->nodeValue;
-				}
-			}
-
-			$div = $dom->getElementById('proImg');
-			print_r($div->getElementsByTagName('img')[0]->getAttribute('src'));
-
-			// $imgs = $dom->getElementsByTagName('img');
-			// foreach ($imgs as $img) {
-
-			// 	print_r($img->getAttribute('src'));
-				
-			// }
-			echo "<br/>";
-			
+			$this->create_links($this->urls[$i],$dom);
 		}
-
-
-				
-		$elements["p"] = $arrayP;
-		$elements["strong"] = $arrayStrong;
-
-		echo "P : <br/>";
-		foreach ($elements["p"] as $p) {
-			echo $p."<br/>";
-		}
-		echo "<br/><br/><br/>Strong : <br/>";
-		foreach ($elements["strong"] as $strong) {
-			echo $strong."<br/>";
-		}
-		echo "fin";
 	}
 
+	public function create_links($url,$dom) {
+		$div = $dom->getElementById('proImg');
+		$img = $div->getElementsByTagName('img')[0]->getAttribute('src');
+
+		$title = $dom->getElementById('proTitre')->nodeValue;
+
+		$desc = "";
+		$listeDiv = $dom->getElementsByTagName('div');
+		foreach ($listeDiv as $div) {
+			if($div->getAttribute('class') == "desc simple_wysiwyg") {
+				$desc = $div->getElementsByTagName('p')[0]->nodeValue;
+				break;
+			}
+		}
+		$link = new Link($url,$title,$img,$desc);
+		$this->links[] = $link;
+	}
 }
+
+
 
 ?>
