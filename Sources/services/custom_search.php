@@ -78,12 +78,13 @@ class CustomSearch
 			$dom = new DomDocument();
 			$dom->loadHTML($resultAsString);
 
-			$listeP = $dom->getElementsByTagName('p');
-			foreach ($listeP as $p) {
-				if(!empty($p->nodeValue)) {
-					$arrayP[] = $p->nodeValue;
-				}
+			//on recupere le premier descriptif du vin
+			$liste1 = $dom->getElementById('proDesc');
+			foreach ($liste1 as $elem) {
+				$arrayP[] = $p->nodeValue;
 			}
+			
+			//on recupere le deuxieme descriptif du vin
 
 			$listeStrong = $dom->getElementsByTagName('strong');
 			foreach ($listeStrong as $strong) {
