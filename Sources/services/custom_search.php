@@ -1,3 +1,5 @@
+
+
 <?php
 
 /**
@@ -32,7 +34,7 @@ class CustomSearch
 	}
 
 	private function execute_request() {
-		$request = curl_init(self::$baseUrl."?key=".self::$key."&cx=".self::$cx."&q=".$this->query);
+		$request = curl_init(self::$baseUrl."?key=".self::$key."&cx=".self::$cx."&q=".$this->query."&fileType=html");
 		curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($request, CURLOPT_HTTPHEADER, array(
 		    'Accept: application/json'
@@ -60,28 +62,23 @@ class CustomSearch
 	}
 
 	private function get_links_results() {
-		// for ($i=0; $i < $this->nbLinks; $i++) { 
-			// $request = curl_init($this->links[$i]);
-			echo ">".$this->links[0];
-			$request = curl_init($this->links[0]);
+		for ($i=0; $i < $this->nbLinks; $i++) { 
+			$request = curl_init($this->links[$i]);
 			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
 			curl_setopt($request, CURLOPT_TIMEOUT, 5);
 			curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
 			$resultAsString = curl_exec($request);
 			curl_close($request);
-			// $dom = new DomDocument();
-			// $dom->loadXML($resultAsString);
 
+			$dom = new DomDocument();
+			$dom->loadHTML($resultAsString);
 
-			// print_r($dom);
-			// $listeP = $dom->getElementsByTagName('div');
-			// print_r($listeP);
-			// foreach ($listeP as $p) {
-			// 	echo $p->nodeValue."<br/>";
-			// }
-
-		// }
-		
+			$listeP = $dom->getElementsByTagName('p');
+			foreach ($listeP as $p) {
+				echo $p->nodeValue."<br/>";
+			}
+		}
+		echo "test";
 	}
 
 }
