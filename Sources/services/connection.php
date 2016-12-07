@@ -19,7 +19,7 @@ class Connexion
                 $db_config['PORT'] = '';
                 $db_config['DB_NAME'] = 'divin';
                 $db_config['USER'] = 'root';
-                $db_config['PASSWORD'] = 'guillaume';
+                $db_config['PASSWORD'] = 'qvecchio';
                 $db_config['OPTIONS'] =
                     array(
                         // Activation des exceptions PDO :

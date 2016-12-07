@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__ . '/../../modeles/Beans/Vin.php');
-require_once(__DIR__ . '/../../modeles/Services/connexion.php');
+require_once(__DIR__ . '/../Beans/Vin.php');
+require_once(__DIR__ . '/../../../services/connection.php');
 
 
 class VinDAO

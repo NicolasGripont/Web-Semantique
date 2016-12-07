@@ -1,6 +1,20 @@
 <?php
-require_once '../modeles/Services/custom_search.php';
+require_once('services/custom_search.php');
+require_once("services/service_wine.php");
+require_once("services/connection.php");
 
+$page = $_GET["page"];
+
+
+if($page == "search") {
+	$request = $_GET["request"];
+} else if($page == "wine") {
+	$VinService = new VinService();
+	$listNameOfWine = $VinService->RecoverNamesWines();
+	if ($listNameOfWine) {
+	    echo json_encode($listNameOfWine);
+	} 
+}
 
 //identifiant du moteur de recher : 016014982774890444637:tirltd59_os
 //API key: AIzaSyAQ1rgsSDdetI6uhC9egwf_OqdDprHwB-g
