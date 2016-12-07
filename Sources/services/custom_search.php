@@ -19,16 +19,18 @@ class CustomSearch
 	private $links;
 
 	private $nbLinks;
+
+	public $elements;
 	
 	function __construct($query)
 	{
 		$this->query = str_replace(" ", "+", $query);
 		$links = array();
+		$elements =  array();
 	}
 
 	function execute() {
 		$jsonResult = $this->execute_request();
-		echo $jsonResult;
 		$this->load_links($jsonResult);
 		$this->get_links_results();
 	}
@@ -62,6 +64,9 @@ class CustomSearch
 	}
 
 	private function get_links_results() {
+		$arrayP = array();
+		$arrayStrong = array();
+
 		for ($i=0; $i < $this->nbLinks; $i++) { 
 			$request = curl_init($this->links[$i]);
 			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
@@ -75,10 +80,31 @@ class CustomSearch
 
 			$listeP = $dom->getElementsByTagName('p');
 			foreach ($listeP as $p) {
-				echo $p->nodeValue."<br/>";
+				if(!empty($p->nodeValue)) {
+					$arrayP[] = $p->nodeValue;
+				}
+			}
+
+			$listeStrong = $dom->getElementsByTagName('strong');
+			foreach ($listeStrong as $strong) {
+				if(!empty($p->nodeValue)) {
+					$arrayStrong[] = $strong->nodeValue;
+				}
 			}
 		}
-		echo "test";
+				
+		$elements["p"] = $arrayP;
+		$elements["strong"] = $arrayStrong;
+
+		echo "P : <br/>";
+		foreach ($elements["p"] as $p) {
+			echo $p."<br/>";
+		}
+		echo "<br/><br/><br/>Strong : <br/>";
+		foreach ($elements["strong"] as $strong) {
+			echo $strong."<br/>";
+		}
+		echo "fin";
 	}
 
 }
