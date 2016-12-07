@@ -1,7 +1,7 @@
 <?php  
 //ini_set('display_errors',1);
-require_once(__DIR__ . "/../modeles/Services/service_vin.php");
-require_once(__DIR__ . "/../modeles/Services/connexion.php");
+require_once(__DIR__ . "/../modeles/Services/service_wine.php");
+require_once(__DIR__ . "/../modeles/Services/connection.php");
 
 /***** Recupération des informations voulus *****/ 
 
