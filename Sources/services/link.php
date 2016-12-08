@@ -16,15 +16,14 @@ class Link
 	function __construct($url, $title, $img, $desc	)
 	{
 		$this->url = $url;
-		$this->title = $title;
+		$this->title = str_replace("\"", "'", $title);
 		$this->img = $img;
-		$this->desc = $desc;
+		$this->desc = str_replace("\"", "'", $desc);
 	}
 
 	function toJSON() {
-		return "link : {title : \"".$this->title."\", url : \"".$this->url."\", desc : \"".$this->desc."\", img : \"".$this->img."\"}";
+		return "{\"title\" : \"".$this->title."\", \"url\" : \"".$this->url."\", \"desc\" : \"".$this->desc."\", \"img\" : \"".$this->img."\"}";
 	}
-
 }
 
 ?>

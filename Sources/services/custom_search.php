@@ -16,22 +16,14 @@ class CustomSearch
 	//string contenant les mots clés de la recherche
 	private $query;
 
-	private $urls = ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
-						"http://www.infinivin.com/en/domaine-du-paternel-cassis-white-wine-2015-801.html",
-						"http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2015-886.html"];
-// http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-wine-2015-796.html
-// http://www.infinivin.com/en/domaine-du-paternel-cassis-blanc-2013-60.html
-// http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-rose-wine-2015-888.html
-// http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2013-493.html
-// http://www.infinivin.com/en/magnum-domaine-du-paternel-cassis-white-wine-2015-917.html
-// http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2014-902.html
-// http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-2013-59.html;
+	private $urls ;
+//= ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
+// "http://www.infinivin.com/en/domaine-du-paternel-cassis-white-wine-2015-801.html",
+// "http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2015-886.html"];
 
 	private $links;
 
-	private $nbUrls = 3;
-
-	public $elements;
+// = 3;
 	
 	function __construct($query)
 	{
@@ -42,8 +34,8 @@ class CustomSearch
 	}
 
 	function execute() {
-		// $jsonResult = $this->execute_request();
-		// $this->load_urls($jsonResult);
+		$jsonResult = $this->execute_request();
+		$this->load_urls($jsonResult);
 		$this->get_urls_results();
 	}
 
@@ -64,14 +56,8 @@ class CustomSearch
 	}
 
 	private function load_urls($jsonResult) {
-		$nbUrls = 0;
 		foreach ($jsonResult["items"] as $key => $value) {
-			$this->urls[$nbUrls] = $value["link"];
-			$nbUrls = $nbUrls+1;
-		}
-		$this->nbUrls = $nbUrls;
-		for ($i=0; $i < $this->nbUrls; $i++) { 
-			echo $this->urls[$i]."<br/>";
+			$this->urls[] = $value["link"];
 		}
 	}
 
@@ -79,7 +65,7 @@ class CustomSearch
 		$arrayP = array();
 		$arrayStrong = array();
 
-		for ($i=0; $i < $this->nbUrls; $i++) { 
+		for ($i=0; $i < sizeof($this->urls); $i++) { 
 			$request = curl_init($this->urls[$i]);
 			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
 			curl_setopt($request, CURLOPT_TIMEOUT, 5);
@@ -109,6 +95,34 @@ class CustomSearch
 		}
 		$link = new Link($url,$title,$img,$desc);
 		$this->links[] = $link;
+	}
+
+	public function get_links_as_JSON() {
+		$jsonStr = "{\"links\" : [";
+
+		for ($i=0; $i < sizeof($this->links) ; $i++) { 
+			$jsonStr .= $this->links[$i]->toJSON();
+			if($i < (sizeof($this->links) - 1)) {
+				$jsonStr .= ", ";
+			}
+		}	
+
+		$jsonStr .= "]}";
+		return $jsonStr;
+	}
+
+	public function get_urls_as_JSON() {
+		$jsonStr = "{\"urls\" : [";
+
+		for ($i=0; $i < sizeof($this->urls) ; $i++) { 
+			$jsonStr .= "\"".$this->urls[$i]."\"";
+			if($i < (sizeof($this->urls) - 1)) {
+				$jsonStr .= ", ";
+			}
+		}	
+
+		$jsonStr .= "]}";
+		return $jsonStr;
 	}
 }
 
