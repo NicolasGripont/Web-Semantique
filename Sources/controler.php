@@ -34,5 +34,8 @@ if($page == "search") {
 
 $c = new CustomSearch("cassis");
 $c->execute();
+echo $c->get_urls_as_JSON();
+echo "<br/><br/>";
+echo $c->get_links_as_JSON();
 
 ?>

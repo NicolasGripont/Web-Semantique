@@ -1,7 +1,7 @@
 
 
 <?php
-
+require_once("link.php");
 /**
 * 
 */
@@ -16,21 +16,27 @@ class CustomSearch
 	//string contenant les mots clés de la recherche
 	private $query;
 
+	private $urls ;
+//= ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
+// "http://www.infinivin.com/en/domaine-du-paternel-cassis-white-wine-2015-801.html",
+// "http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2015-886.html"];
+
 	private $links;
 
-	private $nbLinks;
+// = 3;
 	
 	function __construct($query)
 	{
 		$this->query = str_replace(" ", "+", $query);
+		$urls = array();
+		$elements =  array();
 		$links = array();
 	}
 
 	function execute() {
 		$jsonResult = $this->execute_request();
-		echo $jsonResult;
-		$this->load_links($jsonResult);
-		$this->get_links_results();
+		$this->load_urls($jsonResult);
+		$this->get_urls_results();
 	}
 
 	private function execute_request() {
@@ -49,21 +55,18 @@ class CustomSearch
 		return $jsonResult;
 	}
 
-	private function load_links($jsonResult) {
-		$nbLinks = 0;
+	private function load_urls($jsonResult) {
 		foreach ($jsonResult["items"] as $key => $value) {
-			$this->links[$nbLinks] = $value["link"];
-			$nbLinks = $nbLinks+1;
-		}
-		$this->nbLinks = $nbLinks;
-		for ($i=0; $i < $this->nbLinks; $i++) { 
-			echo $this->links[$i]."<br/>";
+			$this->urls[] = $value["link"];
 		}
 	}
 
-	private function get_links_results() {
-		for ($i=0; $i < $this->nbLinks; $i++) { 
-			$request = curl_init($this->links[$i]);
+	private function get_urls_results() {
+		$arrayP = array();
+		$arrayStrong = array();
+
+		for ($i=0; $i < sizeof($this->urls); $i++) { 
+			$request = curl_init($this->urls[$i]);
 			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
 			curl_setopt($request, CURLOPT_TIMEOUT, 5);
 			curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
@@ -72,15 +75,57 @@ class CustomSearch
 
 			$dom = new DomDocument();
 			$dom->loadHTML($resultAsString);
-
-			$listeP = $dom->getElementsByTagName('p');
-			foreach ($listeP as $p) {
-				echo $p->nodeValue."<br/>";
-			}
+			$this->create_links($this->urls[$i],$dom);
 		}
-		echo "test";
 	}
 
+	public function create_links($url,$dom) {
+		$div = $dom->getElementById('proImg');
+		$img = $div->getElementsByTagName('img')[0]->getAttribute('src');
+
+		$title = $dom->getElementById('proTitre')->nodeValue;
+
+		$desc = "";
+		$listeDiv = $dom->getElementsByTagName('div');
+		foreach ($listeDiv as $div) {
+			if($div->getAttribute('class') == "desc simple_wysiwyg") {
+				$desc = $div->getElementsByTagName('p')[0]->nodeValue;
+				break;
+			}
+		}
+		$link = new Link($url,$title,$img,$desc);
+		$this->links[] = $link;
+	}
+
+	public function get_links_as_JSON() {
+		$jsonStr = "{\"links\" : [";
+
+		for ($i=0; $i < sizeof($this->links) ; $i++) { 
+			$jsonStr .= $this->links[$i]->toJSON();
+			if($i < (sizeof($this->links) - 1)) {
+				$jsonStr .= ", ";
+			}
+		}	
+
+		$jsonStr .= "]}";
+		return $jsonStr;
+	}
+
+	public function get_urls_as_JSON() {
+		$jsonStr = "{\"urls\" : [";
+
+		for ($i=0; $i < sizeof($this->urls) ; $i++) { 
+			$jsonStr .= "\"".$this->urls[$i]."\"";
+			if($i < (sizeof($this->urls) - 1)) {
+				$jsonStr .= ", ";
+			}
+		}	
+
+		$jsonStr .= "]}";
+		return $jsonStr;
+	}
 }
+
+
 
 ?>
