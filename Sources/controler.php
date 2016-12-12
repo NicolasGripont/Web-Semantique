@@ -9,6 +9,9 @@ $page = $_GET["page"];
 
 if($page == "search") {
 	$request = $_GET["request"];
+
+	echo json_encode($request);
+	return;
 } else if($page == "wine") {
 	$VinService = new VinService();
 	$listNameOfWine = $VinService->RecoverNamesWines();

@@ -12,6 +12,10 @@ h1 {
 	text-align: center;
 }
 
+div#research{
+  margin-bottom: 20px;
+}
+
 .logoCenter {
 	margin-top: 30%;
 	text-align: center;
