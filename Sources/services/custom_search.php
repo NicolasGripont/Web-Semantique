@@ -62,19 +62,46 @@ class CustomSearch
 	}
 
 	private function get_urls_results() {
-		$arrayP = array();
-		$arrayStrong = array();
+		$chs = array();
+		$results = array();
 
+		// Création des ressources cURL et definition des options
 		for ($i=0; $i < sizeof($this->urls); $i++) { 
-			$request = curl_init($this->urls[$i]);
-			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
-			curl_setopt($request, CURLOPT_TIMEOUT, 5);
-			curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
-			$resultAsString = curl_exec($request);
-			curl_close($request);
+			$chs[$i] = curl_init($this->urls[$i]);
+			curl_setopt($chs[$i], CURLOPT_RETURNTRANSFER, true);	
+			curl_setopt($chs[$i], CURLOPT_TIMEOUT, 5);
+			curl_setopt($chs[$i], CURLOPT_CONNECTTIMEOUT, 5);
+		}
 
+		// Création du gestionnaire multiple
+		$mh = curl_multi_init();
+
+		// Ajout des gestionnaires
+		for ($i=0; $i < sizeof($this->urls); $i++) { 
+			curl_multi_add_handle($mh,$chs[$i]);
+		}
+
+		// Exécute le gestionnaire
+		$running = null;
+		do {
+   			curl_multi_exec($mh, $running);
+		} while($running > 0);
+
+		// Recupération des résultats et femeture des gestionnaires
+		foreach ($chs as $id => $ch) {
+		    $results[$id] = curl_multi_getcontent($ch);
+		    curl_multi_remove_handle($mh, $ch);
+		}
+
+		// Fermeture des gestionnaires
+		for ($i=0; $i < sizeof($this->urls); $i++) { 
+			curl_multi_remove_handle($mh, $chs[$i]);
+		}
+		curl_multi_close($mh);
+
+		foreach ($results as $result) {
 			$dom = new DomDocument();
-			$dom->loadHTML($resultAsString);
+			$dom->loadHTML($result);
 			$this->create_links($this->urls[$i],$dom);
 		}
 	}
@@ -124,6 +151,7 @@ class CustomSearch
 		$jsonStr .= "]}";
 		return $jsonStr;
 	}
+	
 }
 
 
