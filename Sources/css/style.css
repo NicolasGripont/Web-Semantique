@@ -54,10 +54,7 @@ div#research{
 .imageResize
 {
   height: 250px;
-    width: 250px;
-  line-height:250px;
-  text-align:center;
+  width: 250px;
   margin-top:10px;
   margin-bottom: 10px;
-  padding: 1px;
 }

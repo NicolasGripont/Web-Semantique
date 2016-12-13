@@ -1,6 +1,9 @@
+
+//Initialisation
 var listNameOfWine = new Array();
 var loadStructure = false;
 
+//Au chargement de la page
 $(document).ready(function(){
     //automplete
     $('#search_bar').autocomplete({
@@ -21,7 +24,6 @@ $(document).ready(function(){
         {
             addStructureMenu();
             addStructureContentMenu();
-            //saddStructurePage2();
             loadStructure =true;
         }
 
@@ -44,17 +46,6 @@ $(document).ready(function(){
                 }
             }
         });
-        //addContentPage();
-        addContentPage2();
-        addContentPage2();
-        addContentPage2();
-        addContentPage2();
-        addContentPage3();
-        addContentPage3();
-       // addContentArticles("Château de Fontcreuse Magnum : Cassis - Blanc 2015", "http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html", "This Cassis Fontcreuse White wine 2015 has a very …kes a nervous wine, well balanced and declicious.", "http://www.infinivin.com/2999-large/chateau-de-fontcreuse-magnum-cassis-blanc-2015.jpg", 1);
-        //addContentArticles("Château de Fontcreuse Magnum : Cassis - Blanc 2015", "http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html", "This Cassis Fontcreuse White wine 2015 has a very …kes a nervous wine, well balanced and declicious.", "http://www.infinivin.com/2999-large/chateau-de-fontcreuse-magnum-cassis-blanc-2015.jpg", 1);
-        //addContentArticles("Château de Fontcreuse Magnum : Cassis - Blanc 2015", "http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html", "This Cassis Fontcreuse White wine 2015 has a very …kes a nervous wine, well balanced and declicious.", "http://www.infinivin.com/2999-large/chateau-de-fontcreuse-magnum-cassis-blanc-2015.jpg", 1);
-
     });
 
     //recover list name of wine
@@ -72,33 +63,11 @@ $(document).ready(function(){
     });
 });
 
-function addStructurePage2() 
-{
-    $htmlStructure ="";
-    $htmlStructure += '<ul class="nav nav-tabs" id="myTab">';
-    $htmlStructure += '  <li class="active"><a data-toggle="tab" href="#menu1">Descriptif</a></li>';
-    $htmlStructure += '  <li><a data-toggle="tab" href="#menu2">Articles</a></li>';
-    $htmlStructure += '  <li><a data-toggle="tab" href="#menu3">Recette</a></li>';
-    $htmlStructure += '  <li><a data-toggle="tab" href="#menu4">Reseaux Sociaux</a></li>';
-    $htmlStructure += '  <li class="dropdown">';
-    $htmlStructure += '    <a data-toggle="dropdown" class="dropdown-toggle" id="myTabDrop1" href="#">';
-    $htmlStructure += '          Liste <b class="caret"></b>';
-    $htmlStructure += '    </a>';
-    $htmlStructure += '    <ul aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">';
-    $htmlStructure += '      <li><a data-toggle="tab" href="#dropdown1">Texte 1</a></li>';
-    $htmlStructure += '      <li><a data-toggle="tab" href="#dropdown2">Texte 2</a></li>';
-    $htmlStructure += '    </ul>';
-    $htmlStructure += '  </li>';
-    $htmlStructure += '</ul>';
+//      #### Functions ####
 
-    $( "div#container" ).append($htmlStructure);
-return;
-}
-
+//function de la structure du menu (onglet)
 function addStructureMenu() 
 {
-
-
         //ul nav 
         var ulNav = document.createElement("ul");
         ulNav.setAttribute('id', "myTab");
@@ -219,6 +188,7 @@ function addStructureMenu()
 return;
 }
 
+//ajout de la structure du content menu
 function addStructureContentMenu()
 {
     //div content 
@@ -266,69 +236,8 @@ function addStructureContentMenu()
 
     $( "div#container" ).append(divContent);
 }
-function addContentPage(){
-    $htmlContent = "";
-    $htmlContent += '<div class="tab-content" id="myTabContent">';
-    $htmlContent += '      <div id="menu1" class="tab-pane fade active in">';
-    $htmlContent += '        <p><br>Texte Accueil</p>';
-    $htmlContent += '      </div>';
-    $htmlContent += '      <div id="menu2" class="tab-pane fade">';
-    $htmlContent += '        <p><br>Texte Messages</p>';
-    $htmlContent += '      </div>';
-    $htmlContent += '      <div id="dropdown1" class="tab-pane fade">';
-    $htmlContent += '        <p><br>Texte 1</p>';
-    $htmlContent += '      </div>';
-    $htmlContent += '      <div id="dropdown2" class="tab-pane fade">';
-    $htmlContent += '        <p><br>Texte 2</p>';
-    $htmlContent += '      </div>';
-    $htmlContent += '    </div>';
 
-    $( "div#container" ).append($htmlContent);
-return;
-}
-
-function addContentPage2()
-{
-
-    $htmlContent = "";
-   //$htmlContent += '<div class="tab-content" id="myTabContent">';
-    $htmlContent += '      <div>';// id="menu3" class="tab-pane fade active in">';
-    $htmlContent += '        <p><br>Texte Accueil bis</p>';
-    $htmlContent += '      </div>';
-    /*$htmlContent += '      <div id="menu4" class="tab-pane fade">';
-    $htmlContent += '        <p><br>Texte Messages bis</p>';
-    $htmlContent += '      </div>';
-    $htmlContent += '      <div id="dropdown3" class="tab-pane fade">';
-    $htmlContent += '        <p><br>Texte 1 bis</p>';
-    $htmlContent += '      </div>';
-    $htmlContent += '      <div id="dropdown4" class="tab-pane fade">';
-    $htmlContent += '        <p><br>Texte 2 bis</p>';
-    $htmlContent += '      </div>';
-    //$htmlContent += '    </div>';
-*/
-    $( "div#menu1" ).append($htmlContent);
-
-}
-
-function addContentPage3()
-{
-
-    $htmlContent = "";
-    $htmlContent += '<div class="container top-buffer" id="article1" margin="auto">';
-    $htmlContent += '      <div id="imgArticle1" class="col-md-3">';
-    $htmlContent += '        <img id="imgSource1" class="imageResize" src="http://www.infinivin.com/2999-large/chateau-de-fontcreuse-magnum-cassis-blanc-2015.jpg"></img>';
-    $htmlContent += '      </div>';
-
-    $htmlContent += '      <div id="ContentArticle" class="col-md-9">';
-    $htmlContent += '        <h3><a href="https://developer.mozilla.org"><br>Title Articles</a></h3>';
-    $htmlContent += '        <h2>Description articles</h2>';
-    $htmlContent += '      </div>';
-    $htmlContent += '    </div>';
-
-    $( "div#menu3" ).append($htmlContent);
-
-}
-
+//ajout le contenu des articles 
 function addContentArticles(titre, lien, description, srcImage, numeroArticles)
 {
     var menu2 = document.getElementById('menu2');
@@ -375,6 +284,5 @@ function addContentArticles(titre, lien, description, srcImage, numeroArticles)
     divContent.appendChild(h3Description);
     var h3Text = document.createTextNode(description);
     h3Description.appendChild(h3Text);
-
 
 }
