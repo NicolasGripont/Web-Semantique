@@ -1,5 +1,5 @@
 {
-	"links" : [
+	"articles" : [
 		{	
 			"title" : "Château de Fontcreuse Magnum : Cassis - Blanc 2015", 
 			"url" : "http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
@@ -60,5 +60,13 @@
 			"desc" : "This rosé of the Domaine du Paternel 2013 slightly salmon, in the attractive nose of citrus fruits and fruits days, has the frank, well-balanced mouth, everything in lightness and in liveliness.",
 		 	"img" : "http://www.infinivin.com/248-large/domaine-du-paternel-cassis-rose-2013.jpg"
 		}
-	]
+	],
+	"social" : [
+
+	], 
+	"recipes" : [
+	],
+	"descriptive" : {
+
+	}
 }
