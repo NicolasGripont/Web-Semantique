@@ -3,6 +3,10 @@
 		private $urlDBPediaSpotlighByKeyWord = "http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString=";
 		private $urlDBPediaSpotlighByText = "http://spotlight.sztaki.hu:2222/rest/annotate";
 
+		public function __construct()
+    	{
+    	}
+		
 		public function getURIForKeyword($word) {
 			$res = file_get_contents ($this->urlDBPediaSpotlighByKeyWord . $word);
 			$xml = simplexml_load_string($res);
