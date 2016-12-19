@@ -6,7 +6,7 @@
 require "../libraries/twitteroauth/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 
-class social_networks {
+class Social_networks {
 	private $CONSUMER_KEY_TWITTER = "VoxamEtLVhTvTJFPPeLpfaTBl";
 	private $CONSUMER_SECRET_TWITTER = "USKvit6FXHX8m44YhqjF6h3CNSYEkdqzQFTz2jZQrN793RYBsj";
 
