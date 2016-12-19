@@ -24,7 +24,7 @@
 			if($confidence > 1) 
 				$confidence = 0.35;
 			$textTranform = str_replace(" ","%20",$text); 
-			$ch = curl_init($this->urlDBPediaSpotlighByText .'?text=' . $textTranform . "&confidence=" . $confidence . "&types=Freebase:/wine");
+			$ch = curl_init($this->urlDBPediaSpotlighByText .'?text=' . $textTranform . "&confidence=" . $confidence . "&types=");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			    'Accept: application/json'
@@ -46,8 +46,4 @@
 			}
 		}
 	}
-
-	$URI_Extrator = new URI_Extrator();
-	echo json_encode($URI_Extrator->getURIForKeyword("cognac"));
-	echo "Result : " . json_encode($URI_Extrator->getURIForText("Cognac named after the town of Cognac, France, is a variety of brandy. It is produced in the wine-growing region surrounding the town from which it takes its name, in the French Departements of Charente and Charente-Maritime.", 0.35));
 ?>
