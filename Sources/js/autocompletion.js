@@ -317,7 +317,7 @@ function addContentSocialTwitter(created_at, text, username, username_photo_prof
     //div du twitt
     var divContent= document.createElement('div');
     divContent.setAttribute('id', ('twitt'+numeroTwitt));
-    divContent.setAttribute('class', "col-md-4");
+    divContent.setAttribute('class', "col-md-4 col-sm-6");
     divContent.setAttribute('margin', "auto");
     twitterContent.appendChild(divContent);
 
