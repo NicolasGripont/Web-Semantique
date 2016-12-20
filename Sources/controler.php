@@ -1,10 +1,10 @@
 <?php
 //ini_set('display_errors',1);
-require_once('services/custom_search.php');
-require_once('services/uri_extractor.php');
-require_once("services/service_wine.php");
-require_once("services/connection.php");
-require_once("services/social_networks.php");
+require_once(__DIR__ . "/services/custom_search.php");
+require_once(__DIR__ . "/services/uri_extractor.php");
+require_once(__DIR__ . "/services/service_wine.php");
+require_once(__DIR__ . "/services/connection.php");
+require_once(__DIR__ . "/services/social_networks.php");
 
 $page = $_GET["page"];
 

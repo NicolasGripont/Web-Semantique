@@ -3,7 +3,7 @@
 //		https://twitteroauth.com
 //		https://dev.twitter.com/rest/public/search
 
-require "../libraries/twitteroauth/autoload.php";
+require __DIR__ . "/../libraries/twitteroauth/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 class Social_networks {
