@@ -53,8 +53,25 @@ div#research{
 
 .imageResize
 {
-  height: 250px;
   width: 250px;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+
+div#twitter-content div{
+  margin-top:10px;
+  margin-bottom: 10px;
+  padding-right:10px;
+  padding-left: 10px;
+  background: grey;
+  background-clip:content-box;
+}
+
+
+
+.imageTwitt
+{
+  width: 70px;
   margin-top:10px;
   margin-bottom: 10px;
 }

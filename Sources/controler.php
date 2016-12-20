@@ -1,5 +1,5 @@
 <?php
-//ini_set('display_errors',1);
+ini_set('display_errors',1);
 require_once(__DIR__ . "/services/custom_search.php");
 require_once(__DIR__ . "/services/uri_extractor.php");
 require_once(__DIR__ . "/services/service_wine.php");
@@ -19,8 +19,8 @@ if($page == "search") {
 
 	//echo json_encode($request);
 	$string = file_get_contents("example.json");
-	$json_a = json_decode($string, true);
-	echo $json_a;
+	//$json_a = json_encode($string, true);
+	echo $string;
 	return;
 
 	$social_networks = new Social_networks();
