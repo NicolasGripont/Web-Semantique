@@ -71,11 +71,10 @@ class CustomSearch
 			echo $this->links[$i]."<br/>";
 		}
 	}
+	
 
 	private function get_links_results() {
-		$arrayP = array();
-		$arrayStrong = array();
-
+		$array_text = array();
 		for ($i=0; $i < $this->nbLinks; $i++) { 
 			$request = curl_init($this->links[$i]);
 			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
@@ -86,49 +85,60 @@ class CustomSearch
 
 			$dom = new DomDocument();
 			$dom->loadHTML($resultAsString);
-
-			//on recupere le premier descriptif du vin
-			$liste1 = $dom->getElementById('proDesc');
-			foreach ($liste1 as $elem) {
-				$arrayP[] = $p->nodeValue;
+			$array_text2 = $this->load_text($dom);
+			$array_text = array_merge($array_text, $array_text2);
+		}
+		print_r($array_text);
+		echo "fin";
+	}
+	
+	private function getElementsByClass(&$parentNode, $tagName, $className) {
+		$nodes=array();
+	
+		$childNodeList = $parentNode->getElementsByTagName($tagName);
+		for ($i = 0; $i < $childNodeList->length; $i++) {
+			$temp = $childNodeList->item($i);
+			if (stripos($temp->getAttribute('class'), $className) !== false) {
+				$nodes[]=$temp;
 			}
-			
-			//on recupere le deuxieme descriptif du vin
-
-			$listeStrong = $dom->getElementsByTagName('strong');
-			foreach ($listeStrong as $strong) {
-				if(!empty($p->nodeValue)) {
-					$arrayStrong[] = $strong->nodeValue;
+		}
+	
+		return $nodes;
+	}
+	
+	private function load_text($dom) {
+		$arrayP = array();
+		//on recupere le premier descriptif du vin
+		$elem1 = $dom->getElementById('proDesc');
+		if($elem1->hasChildNodes()) {
+			foreach ($elem1->childNodes as $text) {
+				if(trim($text->nodeValue) !== "") {
+					$arrayP[] = $text->nodeValue;
 				}
 			}
-
-			$div = $dom->getElementById('proImg');
-			print_r($div->getElementsByTagName('img')[0]->getAttribute('src'));
-
-			// $imgs = $dom->getElementsByTagName('img');
-			// foreach ($imgs as $img) {
-
-			// 	print_r($img->getAttribute('src'));
-				
-			// }
-			echo "<br/>";
-			
 		}
-
-
-				
-		$elements["p"] = $arrayP;
-		$elements["strong"] = $arrayStrong;
-
-		echo "P : <br/>";
-		foreach ($elements["p"] as $p) {
-			echo $p."<br/>";
+		//on recupere le deuxième descriptif du vin
+		$elem2 = $dom->getElementById('proCara');
+		if($elem2->hasChildNodes()) {
+			foreach ($elem2->childNodes as $text) {
+				if(trim($text->nodeValue) !== "") {
+					$arrayP[] = $text->nodeValue;
+				}
+			}
 		}
-		echo "<br/><br/><br/>Strong : <br/>";
-		foreach ($elements["strong"] as $strong) {
-			echo $strong."<br/>";
+		//on recupere les textes suivants
+		$node = $dom->getElementsByTagName("body");
+		$elem3 = $this->getElementsByClass($node[0],"div","simple_wysiwyg");
+		foreach($elem3 as $noeud) {
+			if($noeud->hasChildNodes()) {
+				foreach ($noeud->childNodes as $text) {
+					if(trim($text->nodeValue) !== "") {
+						$arrayP[] = $text->nodeValue;
+					}
+				}
+			}
 		}
-		echo "fin";
+		return $arrayP;
 	}
 
 }
