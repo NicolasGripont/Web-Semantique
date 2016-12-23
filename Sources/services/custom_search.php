@@ -1,7 +1,7 @@
 
 
 <?php
-
+require_once("link.php");
 /**
 * 
 */
@@ -16,32 +16,30 @@ class CustomSearch
 	//string contenant les mots clés de la recherche
 	private $query;
 
-	private $links = ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
-						"http://www.infinivin.com/en/domaine-du-paternel-cassis-white-wine-2015-801.html",
-						"http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2015-886.html"];
-// http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-wine-2015-796.html
-// http://www.infinivin.com/en/domaine-du-paternel-cassis-blanc-2013-60.html
-// http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-rose-wine-2015-888.html
-// http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2013-493.html
-// http://www.infinivin.com/en/magnum-domaine-du-paternel-cassis-white-wine-2015-917.html
-// http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2014-902.html
-// http://www.infinivin.com/en/domaine-du-paternel-cassis-rose-2013-59.html;
+	private $urls ;
+//= ["http://www.infinivin.com/en/chateau-de-fontcreuse-magnum-cassis-blanc-2015-918.html",
+// "http://www.infinivin.com/en/domaine-du-paternel-cassis-white-wine-2015-801.html",
+// "http://www.infinivin.com/en/chateau-de-fontcreuse-cassis-white-wine-2015-886.html"];
 
-	private $nbLinks = 3;
+	private $links;
+	
+	private $texts;
 
-	public $elements;
+// = 3;
 	
 	function __construct($query)
 	{
 		$this->query = str_replace(" ", "+", $query);
-		$links = array();
+		$urls = array();
 		$elements =  array();
+		$links = array();
+		$texts = array();
 	}
 
 	function execute() {
-		// $jsonResult = $this->execute_request();
-		// $this->load_links($jsonResult);
-		$this->get_links_results();
+		$jsonResult = $this->execute_request();
+		$this->load_urls($jsonResult);
+		$this->get_urls_results();
 	}
 
 	private function execute_request() {
@@ -60,41 +58,65 @@ class CustomSearch
 		return $jsonResult;
 	}
 
-	private function load_links($jsonResult) {
-		$nbLinks = 0;
+	private function load_urls($jsonResult) {
 		foreach ($jsonResult["items"] as $key => $value) {
-			$this->links[$nbLinks] = $value["link"];
-			$nbLinks = $nbLinks+1;
-		}
-		$this->nbLinks = $nbLinks;
-		for ($i=0; $i < $this->nbLinks; $i++) { 
-			echo $this->links[$i]."<br/>";
+			$this->urls[] = $value["link"];
 		}
 	}
 	
+	private function get_urls_results() {
+		$chs = array();
+		$results = array();
 
-	private function get_links_results() {
+		// Création des ressources cURL et definition des options
+		for ($i=0; $i < sizeof($this->urls); $i++) { 
+			$chs[$i] = curl_init($this->urls[$i]);
+			curl_setopt($chs[$i], CURLOPT_RETURNTRANSFER, true);	
+			curl_setopt($chs[$i], CURLOPT_TIMEOUT, 5);
+			curl_setopt($chs[$i], CURLOPT_CONNECTTIMEOUT, 5);
+		}
+
+		// Création du gestionnaire multiple
+		$mh = curl_multi_init();
+		// Ajout des gestionnaires
+		for ($i=0; $i < sizeof($this->urls); $i++) {
+			curl_multi_add_handle($mh,$chs[$i]);
+		}
+		
+		// Exécute le gestionnaire
+		$running = null;
+		do {
+			curl_multi_exec($mh, $running);
+		} while($running > 0);
+		
+		
+		// Recupération des résultats et femeture des gestionnaires
+		foreach ($chs as $id => $ch) {
+			$results[$id] = curl_multi_getcontent($ch);
+			curl_multi_remove_handle($mh, $ch);
+		}
+		
+		// Fermeture des gestionnaires
+		for ($i=0; $i < sizeof($this->urls); $i++) {
+			curl_multi_remove_handle($mh, $chs[$i]);
+		}
+		curl_multi_close($mh);
+		
 		$array_text = array();
-		for ($i=0; $i < $this->nbLinks; $i++) { 
-			$request = curl_init($this->links[$i]);
-			curl_setopt($request, CURLOPT_RETURNTRANSFER, true);	
-			curl_setopt($request, CURLOPT_TIMEOUT, 5);
-			curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
-			$resultAsString = curl_exec($request);
-			curl_close($request);
-
+		foreach ($results as $result) {
 			$dom = new DomDocument();
-			$dom->loadHTML($resultAsString);
+			$dom->loadHTML($result);
+			$this->create_links($this->urls[$i],$dom);
 			$array_text2 = $this->load_text($dom);
-			$array_text = array_merge($array_text, $array_text2);
+			$array_text = array_merge($array_text2, $array_text);
 		}
-		print_r($array_text);
-		echo "fin";
+		$this->texts = $array_text;
 	}
 	
+	
+	/*fonction pour recuperer les noeuds a partir d'un nom de classe */
 	private function getElementsByClass(&$parentNode, $tagName, $className) {
 		$nodes=array();
-	
 		$childNodeList = $parentNode->getElementsByTagName($tagName);
 		for ($i = 0; $i < $childNodeList->length; $i++) {
 			$temp = $childNodeList->item($i);
@@ -117,6 +139,7 @@ class CustomSearch
 				}
 			}
 		}
+		
 		//on recupere le deuxième descriptif du vin
 		$elem2 = $dom->getElementById('proCara');
 		if($elem2->hasChildNodes()) {
@@ -126,6 +149,7 @@ class CustomSearch
 				}
 			}
 		}
+
 		//on recupere les textes suivants
 		$node = $dom->getElementsByTagName("body");
 		$elem3 = $this->getElementsByClass($node[0],"div","simple_wysiwyg");
@@ -140,7 +164,59 @@ class CustomSearch
 		}
 		return $arrayP;
 	}
+	
+	public function create_links($url,$dom) {
+		$div = $dom->getElementById('proImg');
+		$img = $div->getElementsByTagName('img')[0]->getAttribute('src');
+	
+		$title = $dom->getElementById('proTitre')->nodeValue;
+	
+		$desc = "";
+		$listeDiv = $dom->getElementsByTagName('div');
+		foreach ($listeDiv as $div) {
+			if($div->getAttribute('class') == "desc simple_wysiwyg") {
+				$desc = $div->getElementsByTagName('p')[0]->nodeValue;
+				break;
+			}
+		}
+		$link = new Link($url,$title,$img,$desc);
+		$this->links[] = $link;
+	}
 
+	public function get_links_as_JSON() {
+		$jsonStr = "{\"links\" : [";
+
+		for ($i=0; $i < sizeof($this->links) ; $i++) { 
+			$jsonStr .= $this->links[$i]->toJSON();
+			if($i < (sizeof($this->links) - 1)) {
+				$jsonStr .= ", ";
+			}
+		}	
+
+		$jsonStr .= "]}";
+		return $jsonStr;
+	}
+
+	public function get_urls_as_JSON() {
+		$jsonStr = "{\"urls\" : [";
+
+		for ($i=0; $i < sizeof($this->urls) ; $i++) { 
+			$jsonStr .= "\"".$this->urls[$i]."\"";
+			if($i < (sizeof($this->urls) - 1)) {
+				$jsonStr .= ", ";
+			}
+		}	
+
+		$jsonStr .= "]}";
+		return $jsonStr;
+	}
+	
+	public function get_texts() {
+		return $this->texts;
+	}
+	
 }
+
+
 
 ?>
