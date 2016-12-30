@@ -215,8 +215,8 @@ class CustomSearch
 		return $this->texts;
 	}
 	
+	public function get_links() {
+		return $this->links;
+	}
 }
-
-
-
 ?>

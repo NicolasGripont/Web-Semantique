@@ -16,21 +16,55 @@ if($page == "search") {
 	// 2 - Extraction des résultats
 	// 3 - Reconnaissance de mots clés et recherche des URI associé
 	// 4 - Recherche des informations importante grace au URI SPARQL
+	// 5 - Recherche de recettes
 
-	//echo json_encode($request);
+	/*//echo json_encode($request);
 	$string = file_get_contents("example.json");
 	//$json_a = json_encode($string, true);
 	echo $string;
-	return;
+	return;*/
+	$start = time();
+	$t = time();
+	//echo("Start process");
 
+	// 1 - Recherche sur google
+	$c = new CustomSearch("cassis");
+	$c->execute();
+	/*echo("CustomSearch : " . (time() - $t) . "s<br>");
+	$t = time();*/
+
+	// 1' - Recherche sur les réseaux sociaux
 	$social_networks = new Social_networks();
-	$resSN = $social_networks->searchNewsOnSocialNetworks("request", true);
+	$resSN = $social_networks->searchNewsOnSocialNetworks($request, true);
+	$response["social"]["twitter"] = $resSN["twitter"]["results"];
+	/*echo("Recherche sociales : " . (time() - $t) . "s<br>");
+	$t = time();*/
 
+	// 2 - Extraction des résultats
+	$paragraphes = $c->get_texts();
+	$links = $c->get_links();
+	$response["articles"] = $links;
+	/*echo("Extraction resultat : " . (time() - $t) . "s<br>");
+	$t = time();*/
+
+	// 3 - Reconnaissance de mots clés et recherche des URI associé
 	$uriExtractor = new URI_Extrator();
-	foreach($paragraphes as $p) {
-		$resURI = json_encode($uriExtractor->getURIForText($p, 0.35));
-	}
+	$resURI = $uriExtractor->getURIForTexts($paragraphes, 0.35);
+	/*echo("Reconnaissance de mots : " . (time() - $t) . "s<br>");
+	$t = time();
+	echo("Nb de paragraphes : " . sizeof($paragraphes) . "<br>");
+	foreach ($resURI as $i => $r) {
+		echo("Nb de URI pour p ". ($i+1) . " : " . sizeof($r) . "<br>");
+	}*/
 
+	// 4 - Recherche des informations importante grace au URI SPARQL
+
+	// 5 - Recherche de recettes
+
+	$responseJSON = json_encode($response);
+
+	echo $responseJSON;
+	//echo("Temps total : " . (time() - $start) . "s<br>");
 } else if($page == "wine") {
 	$VinService = new VinService();
 	$listNameOfWine = $VinService->RecoverNamesWines();
@@ -50,13 +84,4 @@ if($page == "search") {
 // curl_exec($ch);
 
 // echo $result;
-
-$c = new CustomSearch("cassis");
-$c->execute();
-echo $c->get_urls_as_JSON();
-echo "<br/><br/>";
-echo $c->get_links_as_JSON();
-echo "<br/><br/>";
-print_r($c->get_texts());
-
 ?>

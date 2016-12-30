@@ -28,8 +28,9 @@ $(document).ready(function(){
                 for (var i = 0; i < data.articles.length; i++) {
                     addContentArticles(data.articles[i].title, data.articles[i].url, data.articles[i].desc, data.articles[i].img, i);
                 }
-                for (var i = 0; i < data.social[0].twitter.length; i++) {
-                    addContentSocialTwitter(data.social[0].twitter[i].created_at, data.social[0].twitter[i].text, data.social[0].twitter[i].username, data.social[0].twitter[i].username_photo_profil, i)
+                alert(data.social.twitter.length);
+                for (var i = 0; i < data.social.twitter.length; i++) {
+                    addContentSocialTwitter(data.social.twitter[i].created_at, data.social.twitter[i].text, data.social.twitter[i].username, data.social.twitter[i].username_photo_profil, i)
                 }
             }
         });
