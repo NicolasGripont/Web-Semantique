@@ -4,8 +4,12 @@ body {
 }
 
 #container {
-	margin: 50px;
+	width: 1200px;
+  margin: auto;
+}
 
+a {
+  color: white;
 }
 
 h1 {
