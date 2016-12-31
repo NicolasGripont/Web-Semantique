@@ -16,7 +16,7 @@
 				$results = $array["Result"];
 				$output = array();
 				foreach ($results as $r) {
-				  $output[$word][] = array("URI"=>$r["URI"],"Label"=>$r["Label"]);
+				  $output[$word][] = $r["URI"];
 				}
 				return $output;
 			} else {
@@ -68,7 +68,7 @@
 					$results = $ar["Resources"];
 					$output = array();
 					foreach ($results as $r) {
-					  $output[$r["@surfaceForm"]][] = array("URI"=>$r["@URI"]);
+					  $output[$r["@surfaceForm"]][] = $r["@URI"];
 					}
 					$res[] = $output;
 				}
