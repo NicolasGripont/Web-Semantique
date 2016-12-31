@@ -63,8 +63,8 @@ if($page == "search") {
 	$uris = $uriExtractor->getWordByBestURICount($resURI, 5);
 
 	// Si tu veux des stats
-	$uriExtractor->stats($words);
-	$uriExtractor->stats($uris);
+	//$uriExtractor->stats($words);
+	//$uriExtractor->stats($uris);
 
 	// CHRONO
 	/*echo("Reconnaissance de mots : " . (time() - $t) . "s<br>");
@@ -78,17 +78,18 @@ if($page == "search") {
 
 	// 4 - Recherche des informations importante grace au URI SPARQL
 	$spq = new Sparql_engine();
-	foreach($resURI as $key => $groupURI) {
-		foreach($groupURI as $key2 => $URI) {
-			//echo $URI[0]["URI"];
-			$infos = $spq->getDBPediaInfos($URI[0]["URI"]);
-			$response["dbpedia_desc"][] = array($key2 => $infos);
+	//parcours des labels les plus fréquents
+	foreach($uris as $label => $groupURI) {
+		//pour chaque label, on parcourt les uris donnees et on recupere les infos
+		foreach(array_unique($groupURI[1]) as $URI) {
+			$infos = $spq->getDBPediaInfos($URI);
+			$response["dbpedia_desc"][$label][] = $infos;
 		}
 	}
 	
 	//TEST donnees Nico
-	echo json_encode($response["dbpedia_desc"]);
-	return
+	//echo json_encode($response["dbpedia_desc"]);
+	//return
 	
 	// 5 - Recherche de recettes
 
