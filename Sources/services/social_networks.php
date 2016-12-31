@@ -30,6 +30,10 @@ class Social_networks {
 			    'count' => 20
 			]);
 			$res["twitter"]["query"] = $query;
+			if(!$tweets->statuses) {
+				$res["twitter"]["results"] = '';
+				return $res;
+			}
 			foreach($tweets->statuses as $st) {
 				//print_r($st);
 				$newSt["id"] = $st->id;

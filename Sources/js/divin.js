@@ -24,6 +24,7 @@ $(document).ready(function(){
             },
             dataType: "json",
             success: function(data) {
+				$('#menu1').empty();
 				for (var key in data.dbpedia_desc) {
 					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
@@ -259,14 +260,14 @@ function addStructureContentMenu()
 //ajout le contenu des articles 
 function addContentDescriptif(titre, description, srcImage, srcWiki, numeroDesc)
 {
-    var menu1 = document.getElementById('menu1');
-
+    var menu1 = $('#menu1');
+	
     //div de article
     var divContent= document.createElement('div');
     divContent.setAttribute('id', ('desc'+numeroDesc));
     divContent.setAttribute('class', "container top-buffer");
     divContent.setAttribute('margin', "auto");
-    menu1.appendChild(divContent);
+    menu1.append(divContent);
     
     //la div qui contiendra l'image
     var divImgArt= document.createElement('div');

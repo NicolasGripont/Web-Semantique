@@ -28,7 +28,7 @@ if($page == "search") {
 	$t = time();
 
 	// 1 - Recherche sur google
-	$c = new CustomSearch("cassis");
+	$c = new CustomSearch($_GET["request"]);
 	$c->execute();
 	// CHRONO
 	/*echo("CustomSearch : " . (time() - $t) . "s<br>");
