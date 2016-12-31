@@ -25,6 +25,10 @@ $(document).ready(function(){
             dataType: "json",
             success: function(data) {
 				$('div[id^=menu]').empty();
+				var divRowTwitt= document.createElement('div');
+				divRowTwitt.setAttribute('id','twitter-content');
+				divRowTwitt.setAttribute('class', "row");
+				$('#menu5').append(divRowTwitt);
 				for (var key in data.dbpedia_desc) {
 					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
@@ -35,7 +39,7 @@ $(document).ready(function(){
                 }
                 //alert(data.social.twitter.length);
                 for (var i = 0; i < data.social.twitter.length; i++) {
-                    addContentSocialTwitter(data.social.twitter[i].created_at, data.social.twitter[i].text, data.social.twitter[i].username, data.social.twitter[i].username_photo_profil, i)
+                    addContentSocialTwitter(data.social.twitter[i].created_at, data.social.twitter[i].text, data.social.twitter[i].username_name, data.social.twitter[i].username_photo_profil, i)
                 }
             }
         });
