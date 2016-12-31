@@ -36,10 +36,12 @@
 						{ <".$URI."> rdfs:label ?label. 
 							  FILTER (langMatches (lang (?label) , \"en\")) }
 						UNION
-							{ <".$URI."> dbo:abstract ?text.
+							{ <".$URI."> rdfs:comment ?text.
 							  FILTER (langMatches (lang (?text) , \"en\"))}
 						UNION
 							{ <".$URI."> foaf:depiction ?photo.}
+						UNION
+							{ <".$URI."> foaf:isPrimaryTopicOf ?wiki.}
 						UNION
 							{ <".$URI."> dbo:wikiPageExternalLink ?pages_liees.}
 						}	";

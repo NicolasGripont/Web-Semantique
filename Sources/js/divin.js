@@ -24,7 +24,11 @@ $(document).ready(function(){
             },
             dataType: "json",
             success: function(data) {
-                console.log(data);
+				for (var key in data.dbpedia_desc) {
+					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
+						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
+					}
+                }
                 for (var i = 0; i < data.articles.length; i++) {
                     addContentArticles(data.articles[i].title, data.articles[i].url, data.articles[i].desc, data.articles[i].img, i);
                 }
@@ -250,6 +254,58 @@ function addStructureContentMenu()
 
     $( "div#container" ).append(divContent);
 }
+
+
+//ajout le contenu des articles 
+function addContentDescriptif(titre, description, srcImage, srcWiki, numeroDesc)
+{
+    var menu1 = document.getElementById('menu1');
+
+    //div de article
+    var divContent= document.createElement('div');
+    divContent.setAttribute('id', ('desc'+numeroDesc));
+    divContent.setAttribute('class', "container top-buffer");
+    divContent.setAttribute('margin', "auto");
+    menu1.appendChild(divContent);
+    
+    //la div qui contiendra l'image
+    var divImgArt= document.createElement('div');
+    divImgArt.setAttribute('id', ('imgArticle'+numeroDesc));
+    divImgArt.setAttribute('class', "col-md-3");
+    divContent.appendChild(divImgArt);
+
+    //ajout de l'image
+    var img= document.createElement('img');
+    img.setAttribute('id', ('im'+numeroDesc));
+    img.setAttribute('class', 'imageResize');
+    img.setAttribute('src', srcImage);
+    divImgArt.appendChild(img);  
+    
+    
+    //ajoute la div du texte
+    var divArticleContent= document.createElement('div');
+    divArticleContent.setAttribute('id', ('divArticleContent'+numeroDesc));
+    divArticleContent.setAttribute('class', "col-md-9");
+    divContent.appendChild(divArticleContent);
+    
+    //on ajoute le titre
+    var h3Title= document.createElement('h3');
+    divArticleContent.appendChild(h3Title);
+    var aTitle = document.createElement('a');
+    aTitle.setAttribute( 'href' , srcWiki);
+    var aText = document.createTextNode(titre);
+    h3Title.appendChild(aTitle);
+    aTitle.appendChild(aText);
+
+    //ajout de la description
+
+    var h3Description = document.createElement("h3");
+    divArticleContent.appendChild(h3Description);
+    var h3Text = document.createTextNode(description);
+    h3Description.appendChild(h3Text);
+
+}
+
 
 //ajout le contenu des articles 
 function addContentArticles(titre, lien, description, srcImage, numeroArticles)
