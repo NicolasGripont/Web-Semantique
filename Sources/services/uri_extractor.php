@@ -101,11 +101,68 @@
 				return;
 			}
 		}
+
+		private function buildArrayWordApparitionURI($tab) {
+			$mots = array();
+			foreach ($tab as $i => $t) {
+				foreach ($t as $j => $word) {
+					if(array_key_exists($j,$mots)) {
+						$mots[$j][0]++;
+					} else {
+						$mots[$j][0] = 1;
+					}
+					foreach ($word as $uri) {
+						$mots[$j][1][] = $uri;
+					}
+				}
+			}
+			return $mots;
+		}
+
+		public function getWordByBestOccurence($tab, $nbMots) {
+			$res = $this->buildArrayWordApparitionURI($tab);
+			$resSort = array();
+			while(sizeof($res) > 0) {
+				$best = null;
+				foreach ($res as $i => $r) {
+					if($best == null || $res[$best][0] < $res[$i][0])
+						$best = $i;
+				}
+				$resSort[$best] = $res[$best];
+				unset($res[$best]);
+			}
+			return array_slice($resSort,0,$nbMots);
+		}
+
+		public function getWordByBestURICount($tab, $nbMots) {
+			$res = $this->buildArrayWordApparitionURI($tab);
+			$resSort = array();
+			while(sizeof($res) > 0) {
+				$best = null;
+				foreach ($res as $i => $r) {
+					if($best == null || sizeof($res[$best][1]) < sizeof($res[$i][1]))
+						$best = $i;
+				}
+				$resSort[$best] = $res[$best];
+				unset($res[$best]);
+			}
+			return array_slice($resSort,0,$nbMots);
+		}
+
+		public function stats($tab) {
+			foreach ($tab as $i => $r) {
+				echo("Mot " . $i . " : apparu " . $r[0]. " fois, " . sizeof($r[1]) . " URI<br>");
+			}
+		}
 	}
 
 	/*$ex = new URI_Extrator();
 	$t[] = "First documented in the 13th century, Berlin was the capital of the Kingdom of Prussia (1701–1918), the German Empire (1871–1918), the Weimar Republic (1919–33) and the Third Reich (1933–45). Berlin in the 1920s was the third largest municipality in the world. After World War II, the city became divided into East Berlin -- the capital of East Germany -- and West Berlin, a West German exclave surrounded by the Berlin Wall from 1961–89. Following German reunification in 1990, the city regained its status as the capital of Germany, hosting 147 foreign embassies.";
-	$t[] = "First documented in the 13th century, Berlin was the capital of the Kingdom of Prussia (1701–1918), the German Empire (1871–1918), the Weimar Republic (1919–33) and the Third Reich (1933–45). Berlin in the 1920s was the third largest municipality in the world. After World War II, the city became divided into East Berlin -- the capital of East Germany -- and West Berlin, a West German exclave surrounded by the Berlin Wall from 1961–89. Following German reunification in 1990, the city regained its status as the capital of Germany, hosting 147 foreign embassies.";
+	$t[] = "First documented in the 13th century, was the capital of the Kingdom of Prussia (1701–1918), the German Empire (1871–1918), the Weimar Republic (1919–33) and the Third Reich (1933–45). Berlin in the 1920s was the third largest municipality in the world. After World War II, the city became divided into East Berlin -- the capital of East Germany -- and West Berlin, a West German exclave surrounded by the Berlin Wall from 1961–89. Following German reunification in 1990, the city regained its status as the capital of Germany, hosting 147 foreign embassies.";
 	$res = $ex->getURIForTexts($t, 0.35);
-	print_r(sizeof($res[0]));*/
+	$r1 = $ex->getWordByBestOccurence($res,5);
+	$r2 = $ex->getWordByBestURICount($res,5);
+	$ex->stats($r1);
+	echo "<br>";
+	$ex->stats($r2);*/
 ?>

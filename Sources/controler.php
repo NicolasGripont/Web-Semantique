@@ -26,11 +26,11 @@ if($page == "search") {
 	return;*/
 	$start = time();
 	$t = time();
-	//echo("Start process");
 
 	// 1 - Recherche sur google
 	$c = new CustomSearch("cassis");
 	$c->execute();
+	// CHRONO
 	/*echo("CustomSearch : " . (time() - $t) . "s<br>");
 	$t = time();*/
 
@@ -38,6 +38,7 @@ if($page == "search") {
 	$social_networks = new Social_networks();
 	$resSN = $social_networks->searchNewsOnSocialNetworks($request, true);
 	$response["social"]["twitter"] = $resSN["twitter"]["results"];
+	// CHRONO
 	/*echo("Recherche sociales : " . (time() - $t) . "s<br>");
 	$t = time();*/
 
@@ -45,19 +46,32 @@ if($page == "search") {
 	$paragraphes = $c->get_texts();
 	$links = $c->get_links();
 	$response["articles"] = $links;
-	/*echo("Extraction resultat : " . (time() - $t) . "s<br>");
-	$t = time();*/
+	// CHRONO
+	/*
+	echo("Extraction resultat : " . (time() - $t) . "s<br>");
+	$t = time();
+	*/
 
 	// 3 - Reconnaissance de mots clés et recherche des URI associé
 	$uriExtractor = new URI_Extrator();
 	$resURI = $uriExtractor->getURIForTexts($paragraphes, 0.35);
 	
-	//TEST donnees Quentin
-	//echo json_encode($resURI);
-	
+	// Si tu veux les 5 premiers mots les plus utilisé (meilleure occurence)
+	$words = $uriExtractor->getWordByBestOccurence($resURI, 5);
+
+	// Si tu veux les 5 premiers mots avec le plus d'URI
+	$uris = $uriExtractor->getWordByBestURICount($resURI, 5);
+
+	// Si tu veux des stats
+	$uriExtractor->stats($words);
+	$uriExtractor->stats($uris);
+
+	// CHRONO
 	/*echo("Reconnaissance de mots : " . (time() - $t) . "s<br>");
-	$t = time();
-	echo("Nb de paragraphes : " . sizeof($paragraphes) . "<br>");
+	$t = time();*/
+
+	//TEST donnees Quentin
+	/*echo("Nb de paragraphes : " . sizeof($paragraphes) . "<br>");
 	foreach ($resURI as $i => $r) {
 		echo("Nb de URI pour p ". ($i+1) . " : " . sizeof($r) . "<br>");
 	}*/
