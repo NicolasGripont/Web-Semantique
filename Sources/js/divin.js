@@ -24,7 +24,7 @@ $(document).ready(function(){
             },
             dataType: "json",
             success: function(data) {
-				$('#menu1').empty();
+				$('div[id^=menu]').empty();
 				for (var key in data.dbpedia_desc) {
 					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
