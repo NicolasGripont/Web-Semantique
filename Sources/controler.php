@@ -92,9 +92,12 @@ if($page == "search") {
 	//return
 	
 	// 5 - Recherche de recettes
-
+	
 	$responseJSON = json_encode($response);
-
+	flush();
+	echo $responseJSON;
+	return;
+	
 	//echo $responseJSON;
 	//echo("Temps total : " . (time() - $start) . "s<br>");
 } else if($page == "wine") {

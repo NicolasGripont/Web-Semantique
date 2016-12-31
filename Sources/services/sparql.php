@@ -17,7 +17,7 @@
 			if(!$this->db) {
 				$this->db = sparql_connect( "http://dbpedia.org/sparql" );
 				if( !$this->db ) { print $db->errno() . ": " . $db->error(). "\n"; exit; }
-				foreach($prefix_tab as $key => $prefix) {
+				foreach($this->prefix_tab as $key => $prefix) {
 					$this->db->ns($key, $prefix);
 				}
 			}
