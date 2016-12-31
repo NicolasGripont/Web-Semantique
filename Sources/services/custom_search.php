@@ -105,7 +105,7 @@ class CustomSearch
 		$array_text = array();
 		foreach ($results as $result) {
 			$dom = new DomDocument();
-			$dom->loadHTML($result);
+			@$dom->loadHTML($result);
 			$this->create_links($this->urls[$i],$dom);
 			$array_text2 = $this->load_text($dom);
 			$array_text = array_merge($array_text2, $array_text);
