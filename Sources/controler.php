@@ -5,6 +5,7 @@ require_once(__DIR__ . "/services/uri_extractor.php");
 require_once(__DIR__ . "/services/service_wine.php");
 require_once(__DIR__ . "/services/connection.php");
 require_once(__DIR__ . "/services/social_networks.php");
+require_once(__DIR__ . "/services/sparql.php");
 
 $page = $_GET["page"];
 
@@ -50,6 +51,10 @@ if($page == "search") {
 	// 3 - Reconnaissance de mots clés et recherche des URI associé
 	$uriExtractor = new URI_Extrator();
 	$resURI = $uriExtractor->getURIForTexts($paragraphes, 0.35);
+	
+	//TEST donnees Quentin
+	//echo json_encode($resURI);
+	
 	/*echo("Reconnaissance de mots : " . (time() - $t) . "s<br>");
 	$t = time();
 	echo("Nb de paragraphes : " . sizeof($paragraphes) . "<br>");
@@ -58,12 +63,24 @@ if($page == "search") {
 	}*/
 
 	// 4 - Recherche des informations importante grace au URI SPARQL
-
+	$spq = new Sparql_engine();
+	foreach($resURI as $key => $groupURI) {
+		foreach($groupURI as $key2 => $URI) {
+			//echo $URI[0]["URI"];
+			$infos = $spq->getDBPediaInfos($URI[0]["URI"]);
+			$response["dbpedia_desc"][] = array($key2 => $infos);
+		}
+	}
+	
+	//TEST donnees Nico
+	echo json_encode($response["dbpedia_desc"]);
+	return
+	
 	// 5 - Recherche de recettes
 
 	$responseJSON = json_encode($response);
 
-	echo $responseJSON;
+	//echo $responseJSON;
 	//echo("Temps total : " . (time() - $start) . "s<br>");
 } else if($page == "wine") {
 	$VinService = new VinService();
