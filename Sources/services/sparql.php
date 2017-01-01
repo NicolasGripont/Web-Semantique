@@ -9,7 +9,8 @@
 		private $graphs = ['http://dbpedia.org', 'http://wineagent.tw.rpi.edu/data/wine.rdf'];
 		private $prefix_tab = ['foaf' => 'http://xmlns.com/foaf/0.1/',
 							   'dbo' => 'http://dbpedia.org/ontology/',
-							   'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#'];
+							   'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
+							   'nsWine' => 'http://divin.com/wine#'];
 							   
 		private $db = null;
 		
@@ -45,6 +46,21 @@
 						UNION
 							{ <".$URI."> dbo:wikiPageExternalLink ?pages_liees.}
 						}	";
+						
+			return $this->performQuery($sparql);
+		}
+		
+		public function getInfinivinRDFInfos($key_word) {
+			$this->connection();
+			$sparql = "select *
+						FROM <http://http://divin4if.alwaysdata.net/rdf/test.rdf>
+						where {
+						{ ?uri nsWine:Label ?label. 
+						  ?uri nsWine:KeyWords ?k_w
+						  ?uri nsWine:PictureSrc
+						  ?uri nsWine:Description
+							  FILTER (( regex(?label, '.*".key_word.".*') || ( regex(?k_w, '.*".key_word.".*')) }
+					   }";
 						
 			return $this->performQuery($sparql);
 		}
