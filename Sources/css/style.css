@@ -62,22 +62,55 @@ div#research{
   margin-bottom: 10px;
 }
 
-div#twitter-content div{
-  margin-top:10px;
-  margin-bottom: 10px;
-  padding-right:10px;
-  padding-left: 10px;
-  background: grey;
-  background-clip:content-box;
+#twitterLogo {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px 2px 0px 0px;
 }
 
+.tweet {
+  display: inline-block;
+  margin: auto;
+  background: white;
+  color: black;
+  width: 600px;
+  height: 130px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 3px;
+}
 
+.tweetInfo, .tweetImage {
+  display: inline-block;
+  vertical-align: top;
+  margin: auto;
+  background: white;
+  color: black;
+}
 
-.imageTwitt
-{
+.tweetImage {
   width: 70px;
-  margin-top:10px;
-  margin-bottom: 10px;
+  height: 70px;
+}
+
+.tweetImage img {
+  margin: auto;
+}
+
+.tweetInfo {
+  margin-left: 10px;
+  width: 500px;
+  height: 80px;
+}
+
+.tweetInfo h3{
+  font-size: 1.4em;
+  margin-top: 0px;
+}
+
+.tweetInfo p{
+  font-size: 1em;
 }
 
 div#div_search_bar{

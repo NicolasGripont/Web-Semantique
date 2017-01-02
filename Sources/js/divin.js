@@ -62,6 +62,7 @@ $(document).ready(function(){
                 }
             },
             error : function(request, status, error) {
+                $( ".spinner" ).remove();
                 alert(request.responseText);
             }
         });
@@ -138,8 +139,10 @@ function addStructureMenu()
         var liLink5 = document.createElement('a');
         liLink5.setAttribute( 'href' , "#menu5");
         liLink5.setAttribute( 'data-toggle' , "tab");
-        var liLink5Text = document.createTextNode("Réseaux Sociaux");
-        liLink5.appendChild(liLink5Text);
+        var imgTwitter = document.createElement('img');
+        imgTwitter.setAttribute('src','pictures/twitter_logo.png');
+        imgTwitter.setAttribute('id', "twitterLogo");
+        liLink5.appendChild(imgTwitter);
 
         liNav5.appendChild(liLink5);
         ulNav.appendChild(liNav5);
@@ -255,12 +258,6 @@ function addStructureContentMenu()
     divContentMenu5.setAttribute('id','twitter');
     divContentMenu5.setAttribute('class', "row");
     divMenu5.appendChild(divContentMenu5);
-
-    //Titre twitter
-    var h2Title= document.createElement('h2');
-    var h2Text = document.createTextNode('Twitter');
-    h2Title.appendChild(h2Text);
-    divContentMenu5.appendChild(h2Title);
 
     //div content
     var divRowTwitt= document.createElement('div');
@@ -392,14 +389,14 @@ function addContentSocialTwitter(created_at, text, username, username_photo_prof
     //div du twitt
     var divContent= document.createElement('div');
     divContent.setAttribute('id', ('twitt'+numeroTwitt));
-    divContent.setAttribute('class', "col-md-4 col-sm-6");
+    divContent.setAttribute('class', "tweet");
     divContent.setAttribute('margin', "auto");
     twitterContent.appendChild(divContent);
 
     //la div qui contiendra l'image
     var divImgTwitt= document.createElement('div');
     divImgTwitt.setAttribute('id', ('imagetwitt'+numeroTwitt));
-    divImgTwitt.setAttribute('class', "col-md-3");
+    divImgTwitt.setAttribute('class', "tweetImage");
     divContent.appendChild(divImgTwitt);
 
     //ajout de l'image
@@ -413,7 +410,7 @@ function addContentSocialTwitter(created_at, text, username, username_photo_prof
     //ajoute la div des infos du tweet
     var divTwittContent= document.createElement('div');
     divTwittContent.setAttribute('id', ('divTwittContent'+numeroTwitt));
-    divTwittContent.setAttribute('class', "col-md-9");
+    divTwittContent.setAttribute('class', "tweetInfo");
     divContent.appendChild(divTwittContent);
     
     //on ajoute le username
@@ -425,7 +422,8 @@ function addContentSocialTwitter(created_at, text, username, username_photo_prof
     //on ajoute la date
     var pDate= document.createElement('p');
     divTwittContent.appendChild(pDate);
-    var pText = document.createTextNode(created_at);
+    var arr = created_at.split(" ");
+    var pText = document.createTextNode(arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3]);
     pDate.appendChild(pText);
 
     //ajout de la description du twitt

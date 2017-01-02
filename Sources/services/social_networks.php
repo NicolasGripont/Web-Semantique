@@ -35,7 +35,8 @@ class Social_networks {
 				return $res;
 			}
 			foreach($tweets->statuses as $st) {
-				//print_r($st);
+				//print_r($st->user->profile_image_url);
+				//break;
 				$newSt["id"] = $st->id;
 				$newSt["created_at"] = $st->created_at;
 				$newSt["text"] = $st->text;
@@ -44,11 +45,10 @@ class Social_networks {
 				//$newSt["img"] = "";
 				$newSt["username_name"] = $st->user->screen_name;
 				$newSt["username_real_name"] = $st->user->name;
-				$newSt["username_photo_profil"] = "";
+				$newSt["username_photo_profil"] = $st->user->profile_image_url;
 				$results[] = $newSt;
 			}
 			$res["twitter"]["results"] = $results;
-
 		}
 		return $res;
 	}
