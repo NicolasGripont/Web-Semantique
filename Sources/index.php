@@ -16,7 +16,7 @@
 			</div>
 			<div id = "div_search_bar" class="row">
 				<div class="col-md-6 col-md-offset-3">
-						<form>
+						<form onsubmit="return false;">
 			        		<input id="search_bar" type="text" class="input-sm form-control" placeholder="Recherche">
 			       		</form>
 				</div>

@@ -1,4 +1,10 @@
 $(document).ready(function(){
+    $( "#search_bar" ).keypress(function( event ) {
+        if ( event.which == 13 ) {
+            $('#search_button').trigger("click");
+        }
+    });
+
 	$('#search_button').click(function() {
         //remonte le logo
         $('div#logo').removeClass('logoCenter');
@@ -11,7 +17,6 @@ $(document).ready(function(){
             addStructureContentMenu();
             loadStructure =true;
         }
-
 
         console.log($('#search_bar').val());
         //recupére les infos de la requête
