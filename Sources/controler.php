@@ -99,6 +99,7 @@ if($page == "search") {
 	}
 	
 	$response["infinivin"] = $spq->getInfinivinRDFInfos($_GET["request"]);
+	$response["domain"] = $spq->getInfinivinRDFDomain($_GET["request"]);
 	
 	if($chrono) {
 		echo("4 - Recherche des informations : " . (time() - $t) . "s<br>");
