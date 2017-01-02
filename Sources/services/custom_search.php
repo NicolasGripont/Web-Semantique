@@ -13,6 +13,8 @@ class CustomSearch
 
 	private static $cx = "016014982774890444637:tirltd59_os";
 
+	private static $google_cx = "016014982774890444637:owsfw5iqxhk";
+
 	//string contenant les mots clés de la recherche
 	private $query;
 
@@ -25,6 +27,8 @@ class CustomSearch
 	
 	private $texts;
 
+	private $google_urls ;
+
 // = 3;
 	
 	function __construct($query)
@@ -34,12 +38,15 @@ class CustomSearch
 		$elements =  array();
 		$links = array();
 		$texts = array();
+		$google_urls = array();
 	}
 
 	function execute() {
 		$jsonResult = $this->execute_request();
 		$this->load_urls($jsonResult);
 		$this->get_urls_results();
+		$jsonResult = $this->execute_google_request();
+		$this->load_google_urls($jsonResult);
 	}
 
 	private function execute_request() {
@@ -58,10 +65,34 @@ class CustomSearch
 		return $jsonResult;
 	}
 
+	private function execute_google_request() {
+		$request = curl_init(self::$baseUrl."?key=".self::$key."&cx=".self::$google_cx."&q=".$this->query."&fileType=html");
+		curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($request, CURLOPT_HTTPHEADER, array(
+		    'Accept: application/json'
+		));	
+		curl_setopt($request, CURLOPT_TIMEOUT, 5);
+		curl_setopt($request, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+		$resultAsString = curl_exec($request);
+		curl_close($request);
+		$jsonResult = json_decode(utf8_encode($resultAsString),true);
+
+		return $jsonResult;
+	}
+
 	private function load_urls($jsonResult) {
 		if(array_key_exists("items",$jsonResult)) {
 			foreach ($jsonResult["items"] as $key => $value) {
 				$this->urls[] = $value["link"];
+			}
+		}
+	}
+
+	private function load_google_urls($jsonResult) {
+		if(array_key_exists("items",$jsonResult)) {
+			foreach ($jsonResult["items"] as $key => $value) {
+				$this->google_urls[] = $value["link"];
 			}
 		}
 	}
@@ -221,6 +252,10 @@ class CustomSearch
 	
 	public function get_links() {
 		return $this->links;
+	}
+
+	public function get_google_urls() {
+		return $this->google_urls;
 	}
 }
 ?>
