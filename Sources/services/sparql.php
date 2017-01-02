@@ -70,6 +70,7 @@
 		
 		public function getInfinivinRDFInfos($key_word) {
 			$this->connection_sparqlorg();
+			$str_kw = "[" . strtoupper($key_word[0]) . strtolower($key_word[0]) . "]" . substr($key_word, 1, strlen($key_word)-1);
 			$sparql = "select *
 						FROM <http://divin4if.alwaysdata.net/rdf/infinivin_XML_RDF.rdf>
 						where {
@@ -77,7 +78,7 @@
 						  ?uri nsWine:KeyWords ?k_w.
 						  ?uri nsWine:PictureSrc ?picture.
 						  ?uri nsWine:Description ?desc.
-							  FILTER (( regex(?label, '.*".$key_word.".*')) || ( regex(?k_w, '.*".$key_word.".*')))
+							  FILTER (( regex(?label, '.*".$str_kw.".*')) || ( regex(?k_w, '.*".$str_kw.".*')))
 					   }";
 			//return json_encode($sparql);
 			return $this->performQuery_sparqlorg($sparql);
