@@ -70,6 +70,11 @@
 		
 		public function getInfinivinRDFInfos($key_word) {
 			$this->connection_sparqlorg();
+			$chars = str_split($key_word);
+			$str_kw = '';
+			foreach($chars as $char){
+				$str_kw .= "[" . strtoupper($char) . strtolower($char) . "]";
+			}
 			$str_kw = "[" . strtoupper($key_word[0]) . strtolower($key_word[0]) . "]" . substr($key_word, 1, strlen($key_word)-1);
 			$sparql = "select *
 						FROM <http://divin4if.alwaysdata.net/rdf/infinivin_XML_RDF.rdf>
