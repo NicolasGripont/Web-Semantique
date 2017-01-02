@@ -53,7 +53,7 @@
 		public function getInfinivinRDFInfos($key_word) {
 			$this->connection();
 			$sparql = "select *
-						FROM <http://divin4if.alwaysdata.net/rdf/test1.ttl>
+						FROM <http://divin4if.alwaysdata.net/rdf/test2.rdf>
 						where {
 						  ?uri nsWine:Label ?label. 
 						  ?uri nsWine:KeyWords ?k_w.
