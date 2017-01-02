@@ -81,7 +81,11 @@
 							  FILTER (( regex(?label, '.*".$str_kw.".*')) || ( regex(?k_w, '.*".$str_kw.".*')))
 					   }";
 			//return json_encode($sparql);
-			return $this->performQuery_sparqlorg($sparql);
+			$temp = $this->performQuery_sparqlorg($sparql);
+			foreach($temp as $key => $value) {
+				$return[] = $value;
+			}
+			return $return;
 		}
 		
 		public function getInfinivinRDFDomain($key_word) {
@@ -97,7 +101,11 @@
 							  FILTER ((( regex(?label, '.*".$str_kw.".*')) || ( regex(?k_w, '.*".$str_kw.".*')))&& ?domain != '' && ?domain_picture != '' && ?domain_info != '')
 					   }";
 			//return json_encode($sparql);
-			return $this->performQuery_sparqlorg($sparql);
+			$temp = $this->performQuery_sparqlorg($sparql);
+			foreach($temp as $key => $value) {
+				$return[] = $value;
+			}
+			return $return;
 		}
 		
 		public function getWineRecettes($URI){
