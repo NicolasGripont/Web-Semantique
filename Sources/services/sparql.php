@@ -14,9 +14,9 @@
 							   
 		private $db = null;
 		
-		private function connection() {
+		private function connection($endpoint) {
 			if(!$this->db) {
-				$this->db = sparql_connect( "http://dbpedia.org/sparql" );
+				$this->db = sparql_connect( $endpoint );
 				if( !$this->db ) { print $db->errno() . ": " . $db->error(). "\n"; exit; }
 				foreach($this->prefix_tab as $key => $prefix) {
 					$this->db->ns($key, $prefix);
@@ -32,7 +32,7 @@
 		}
 		
 		public function getDBPediaInfos($URI) {
-			$this->connection();
+			$this->connection("http://fr.dbpedia.org/sparql");
 			$sparql = "select * where {
 						{ <".$URI."> rdfs:label ?label. 
 							  FILTER (langMatches (lang (?label) , \"en\")) }
@@ -51,9 +51,9 @@
 		}
 		
 		public function getInfinivinRDFInfos($key_word) {
-			$this->connection();
+			$this->connection("http://www.sparql.org/sparql");
 			$sparql = "select *
-						FROM <http://divin4if.alwaysdata.net/rdf/test2.rdf>
+						FROM <http://divin4if.alwaysdata.net/rdf/infinivin_XML_RDF.rdf>
 						where {
 						  ?uri nsWine:Label ?label. 
 						  ?uri nsWine:KeyWords ?k_w.

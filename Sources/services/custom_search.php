@@ -9,11 +9,11 @@ class CustomSearch
 {
 	private static $baseUrl = "https://www.googleapis.com/customsearch/v1";
 
-	private static $key = "AIzaSyAQ1rgsSDdetI6uhC9egwf_OqdDprHwB-g"; //"AIzaSyBQhROXNGtRsvRaDvDQeax-Q5S33-U2yKQ";
+	private static $key = "AIzaSyBeV2zLuUB_tufpfzL4cPFJl8_P2VL8R5E";//"AIzaSyAQ1rgsSDdetI6uhC9egwf_OqdDprHwB-g"; //"AIzaSyBQhROXNGtRsvRaDvDQeax-Q5S33-U2yKQ";
 
-	private static $cx = "016014982774890444637:tirltd59_os";
+	private static $cx = "013284499051722939158:hxzrjba3w-c";//"016014982774890444637:tirltd59_os";
 
-	private static $google_cx = "016014982774890444637:owsfw5iqxhk";
+	private static $google_cx = "013284499051722939158:uvxtrciwjk4";//"016014982774890444637:owsfw5iqxhk";
 
 	//string contenant les mots clés de la recherche
 	private $query;
