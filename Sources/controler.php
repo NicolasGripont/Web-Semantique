@@ -12,46 +12,55 @@ $page = $_GET["page"];
 
 if($page == "search") {
 	$request = $_GET["request"];
+	$chrono = false;
 	//Algorithme de recherche
 	// 1 - Recherche sur google
 	// 1' - Recherche sur les réseaux sociaux
 	// 2 - Extraction des résultats
 	// 3 - Reconnaissance de mots clés et recherche des URI associé
 	// 4 - Recherche des informations importante grace au URI SPARQL
-	// 5 - Recherche de recettes
+	// 5 - Recherche de recettes avec les api Wine et Food
 
 	/*//echo json_encode($request);
 	$string = file_get_contents("example.json");
 	//$json_a = json_encode($string, true);
 	echo $string;
 	return;*/
-	$start = time();
-	$t = time();
 
+	if($chrono) {
+		$start = time();
+		$t = time();
+	}
+	
 	// 1 - Recherche sur google
 	$c = new CustomSearch($_GET["request"]);
 	$c->execute();
-	// CHRONO
-	/*echo("CustomSearch : " . (time() - $t) . "s<br>");
-	$t = time();*/
+	if($chrono) {
+		echo("1 - CustomSearch : " . (time() - $t) . "s<br>");
+		$t = time();
+	}
 
 	// 1' - Recherche sur les réseaux sociaux
 	$social_networks = new Social_networks();
 	$resSN = $social_networks->searchNewsOnSocialNetworks($request, true);
 	$response["social"]["twitter"] = $resSN["twitter"]["results"];
-	// CHRONO
-	/*echo("Recherche sociales : " . (time() - $t) . "s<br>");
-	$t = time();*/
+	if($chrono) {
+		echo("1' - Recherche sociales : " . (time() - $t) . "s<br>");
+		$t = time();
+	}
 
+	// 1' - Recherche sur l'api Wine
+
+	// 1' - Recherche sur l'api Food
+	
 	// 2 - Extraction des résultats
 	$paragraphes = $c->get_texts();
 	$links = $c->get_links();
 	$response["articles"] = $links;
-	// CHRONO
-	/*
-	echo("Extraction resultat : " . (time() - $t) . "s<br>");
-	$t = time();
-	*/
+	if($chrono) {
+		echo("2 - Extraction resultat : " . (time() - $t) . "s<br>");
+		$t = time();
+	}
 
 	// 3 - Reconnaissance de mots clés et recherche des URI associé
 	$uriExtractor = new URI_Extrator();
@@ -67,9 +76,10 @@ if($page == "search") {
 	//$uriExtractor->stats($words);
 	//$uriExtractor->stats($uris);
 
-	// CHRONO
-	/*echo("Reconnaissance de mots : " . (time() - $t) . "s<br>");
-	$t = time();*/
+	if($chrono) {
+		echo("3 - Reconnaissance de mots : " . (time() - $t) . "s<br>");
+		$t = time();
+	}
 
 	//TEST donnees Quentin
 	/*echo("Nb de paragraphes : " . sizeof($paragraphes) . "<br>");
@@ -90,19 +100,26 @@ if($page == "search") {
 	
 	$response["infinivin"] = $spq->getInfinivinRDFInfos($_GET["request"]);
 	
+	if($chrono) {
+		echo("4 - Recherche des informations : " . (time() - $t) . "s<br>");
+		$t = time();
+	}
 	//TEST donnees Nico
 	//echo json_encode($response["dbpedia_desc"]);
 	//return
 	
 	// 5 - Recherche de recettes
 	
+
+	// 6 - Renvoie du resultat en JSON
 	$responseJSON = json_encode($response);
 	flush();
 	echo $responseJSON;
-	return;
 	
-	//echo $responseJSON;
-	//echo("Temps total : " . (time() - $start) . "s<br>");
+	if($chrono) {
+		echo("<br>Temps total : " . (time() - $start) . "s<br>");
+	}
+	return;
 } else if($page == "wine") {
 	$VinService = new VinService();
 	$listNameOfWine = $VinService->RecoverNamesWines();

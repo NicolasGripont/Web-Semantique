@@ -59,8 +59,10 @@ class CustomSearch
 	}
 
 	private function load_urls($jsonResult) {
-		foreach ($jsonResult["items"] as $key => $value) {
-			$this->urls[] = $value["link"];
+		if(array_key_exists("items",$jsonResult)) {
+			foreach ($jsonResult["items"] as $key => $value) {
+				$this->urls[] = $value["link"];
+			}
 		}
 	}
 	
@@ -106,7 +108,9 @@ class CustomSearch
 		foreach ($results as $result) {
 			$dom = new DomDocument();
 			@$dom->loadHTML($result);
-			$this->create_links($this->urls[$i],$dom);
+			if($i < sizeof($this->urls)) {
+				$this->create_links($this->urls[$i],$dom);
+			}
 			$array_text2 = $this->load_text($dom);
 			$array_text = array_merge($array_text2, $array_text);
 		}

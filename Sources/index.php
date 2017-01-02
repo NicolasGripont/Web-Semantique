@@ -31,5 +31,6 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/autocompletion.js"></script>
 		<script src="js/divin.js"></script>
+		<script src="http://spin.js.org/spin.min.js"></script>
 	</body>
 </html>

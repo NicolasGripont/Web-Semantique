@@ -18,6 +18,13 @@ $(document).ready(function(){
             loadStructure =true;
         }
 
+        var opts = {
+            lines : 10,
+            color: '#FFFFFF' // #rgb or #rrggbb or array of colors
+        }
+        var target = document.getElementById('container');
+        var spinner = new Spinner(opts).spin(target);
+
         console.log($('#search_bar').val());
         //recupére les infos de la requête
         $.ajax({
@@ -28,7 +35,8 @@ $(document).ready(function(){
                 request: $('#search_bar').val()
             },
             dataType: "json",
-            success: function(data) {
+            success: function(data) { 
+                $( ".spinner" ).remove();
 				$('div[id^=menu]').empty();
 				var divRowTwitt= document.createElement('div');
 				divRowTwitt.setAttribute('id','twitter-content');
@@ -39,13 +47,22 @@ $(document).ready(function(){
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
 					}
                 }
-                for (var i = 0; i < data.articles.length; i++) {
-                    addContentArticles(data.articles[i].title, data.articles[i].url, data.articles[i].desc, data.articles[i].img, i);
+                if(data.articles != null) {
+                    for (var i = 0; i < data.articles.length; i++) {
+                        addContentArticles(data.articles[i].title, data.articles[i].url, data.articles[i].desc, data.articles[i].img, i);
+                    }
                 }
-                //alert(data.social.twitter.length);
-                for (var i = 0; i < data.social.twitter.length; i++) {
-                    addContentSocialTwitter(data.social.twitter[i].created_at, data.social.twitter[i].text, data.social.twitter[i].username_name, data.social.twitter[i].username_photo_profil, i)
+                if(data.social != null) {
+                    //alert(data.social.twitter.length);
+                    if(data.social.twitter != null) {
+                        for (var i = 0; i < data.social.twitter.length; i++) {
+                            addContentSocialTwitter(data.social.twitter[i].created_at, data.social.twitter[i].text, data.social.twitter[i].username_name, data.social.twitter[i].username_photo_profil, i)
+                        }
+                    }
                 }
+            },
+            error : function(request, status, error) {
+                alert(request.responseText);
             }
         });
     });
