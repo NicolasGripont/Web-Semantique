@@ -87,6 +87,8 @@ if($page == "search") {
 		}
 	}
 	
+	$response["infinivin"] = $spq->getInfinivinRDFInfos($_GET["request"]);
+	
 	//TEST donnees Nico
 	//echo json_encode($response["dbpedia_desc"]);
 	//return

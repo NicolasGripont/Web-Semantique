@@ -53,15 +53,15 @@
 		public function getInfinivinRDFInfos($key_word) {
 			$this->connection();
 			$sparql = "select *
-						FROM <http://http://divin4if.alwaysdata.net/rdf/test.rdf>
+						FROM <http://divin4if.alwaysdata.net/rdf/test.rdf>
 						where {
-						{ ?uri nsWine:Label ?label. 
-						  ?uri nsWine:KeyWords ?k_w
-						  ?uri nsWine:PictureSrc
-						  ?uri nsWine:Description
-							  FILTER (( regex(?label, '.*".key_word.".*') || ( regex(?k_w, '.*".key_word.".*')) }
+						  ?uri nsWine:Label ?label. 
+						  ?uri nsWine:KeyWords ?k_w.
+						  ?uri nsWine:PictureSrc ?picture.
+						  ?uri nsWine:Description ?desc.
+							  FILTER (( regex(?label, '.*".$key_word.".*')) || ( regex(?k_w, '.*".$key_word.".*')))
 					   }";
-						
+			//return json_encode($sparql);
 			return $this->performQuery($sparql);
 		}
 		
