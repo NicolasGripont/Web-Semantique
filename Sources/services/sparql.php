@@ -70,11 +70,6 @@
 		
 		public function getInfinivinRDFInfos($key_word) {
 			$this->connection_sparqlorg();
-			$chars = str_split($key_word);
-			$str_kw = '';
-			foreach($chars as $char){
-				$str_kw .= "[" . strtoupper($char) . strtolower($char) . "]";
-			}
 			$str_kw = "[" . strtoupper($key_word[0]) . strtolower($key_word[0]) . "]" . substr($key_word, 1, strlen($key_word)-1);
 			$sparql = "select *
 						FROM <http://divin4if.alwaysdata.net/rdf/infinivin_XML_RDF.rdf>
@@ -84,6 +79,22 @@
 						  ?uri nsWine:PictureSrc ?picture.
 						  ?uri nsWine:Description ?desc.
 							  FILTER (( regex(?label, '.*".$str_kw.".*')) || ( regex(?k_w, '.*".$str_kw.".*')))
+					   }";
+			//return json_encode($sparql);
+			return $this->performQuery_sparqlorg($sparql);
+		}
+		
+		public function getInfinivinRDFDomain($key_word) {
+			$this->connection_sparqlorg();
+			$str_kw = "[" . strtoupper($key_word[0]) . strtolower($key_word[0]) . "]" . substr($key_word, 1, strlen($key_word)-1);
+			$sparql = "select distinct ?domain ?domain_info ?domain_picture
+						FROM <http://divin4if.alwaysdata.net/rdf/infinivin_XML_RDF.rdf>
+						where {
+							?uri nsWine:Label ?label.
+							?uri nsWine:Domain ?domain.
+							?uri nsWine:InfoDomain ?domain_info.
+							?uri nsWine:DomainPicture ?domain_picture
+							  FILTER ((( regex(?label, '.*".$str_kw.".*')) || ( regex(?k_w, '.*".$str_kw.".*')))&& ?domain != '' && ?domain_picture != '' && ?domain_info != '')
 					   }";
 			//return json_encode($sparql);
 			return $this->performQuery_sparqlorg($sparql);
