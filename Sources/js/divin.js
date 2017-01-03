@@ -47,13 +47,13 @@ $(document).ready(function(){
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
 					}
                 }
-                if(data.articles != null) {
-                    for (var i = 0; i < data.articles.length; i++) {
-                        addContentArticles(data.articles[i].title, data.articles[i].url, data.articles[i].desc, data.articles[i].img, i);
+                if(data.infinivin != null) {
+                    alert(data.infinivin.length);
+                    for (var i = 0; i < data.infinivin.length; i++) {
+                        addContentArticles(data.infinivin[i].label, data.infinivin[i].uri, data.infinivin[i].desc, data.infinivin[i].picture, i);
                     }
                 }
                 if(data.social != null) {
-                    //alert(data.social.twitter.length);
                     if(data.social.twitter != null) {
                         for (var i = 0; i < data.social.twitter.length; i++) {
                             addContentSocialTwitter(data.social.twitter[i].created_at, data.social.twitter[i].text, data.social.twitter[i].username_name, data.social.twitter[i].username_photo_profil, i)
@@ -113,7 +113,7 @@ function addStructureMenu()
         var liLink3 = document.createElement('a');
         liLink3.setAttribute( 'href' , "#menu3");
         liLink3.setAttribute( 'data-toggle' , "tab");
-        var liLink3Text = document.createTextNode("Recette");
+        var liLink3Text = document.createTextNode("Résultats");
         liLink3.appendChild(liLink3Text);
 
         liNav3.appendChild(liLink3);
@@ -126,7 +126,7 @@ function addStructureMenu()
         var liLink4 = document.createElement('a');
         liLink4.setAttribute( 'href' , "#menu4");
         liLink4.setAttribute( 'data-toggle' , "tab");
-        var liLink4Text = document.createTextNode("Consommation");
+        var liLink4Text = document.createTextNode("Recettes");
         liLink4.appendChild(liLink4Text);
 
         liNav4.appendChild(liLink4);

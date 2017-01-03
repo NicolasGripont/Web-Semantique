@@ -7,6 +7,7 @@ require_once(__DIR__ . "/services/service_wine.php");
 require_once(__DIR__ . "/services/connection.php");
 require_once(__DIR__ . "/services/social_networks.php");
 require_once(__DIR__ . "/services/sparql.php");
+require_once(__DIR__ . "/services/recipe_search.php");
 
 $page = $_GET["page"];
 
@@ -98,8 +99,8 @@ if($page == "search") {
 		}
 	}
 	
-	$response["infinivin"] = $spq->getInfinivinRDFInfos($_GET["request"]);
-	$response["domain"] = $spq->getInfinivinRDFDomain($_GET["request"]);
+	$response["domain"] = $spq->getInfinivinRDFDomain($request);
+	$response["infinivin"] = $spq->getInfinivinRDFInfos($request);
 	
 	if($chrono) {
 		echo("4 - Recherche des informations : " . (time() - $t) . "s<br>");
