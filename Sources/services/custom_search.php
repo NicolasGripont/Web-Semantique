@@ -138,7 +138,7 @@ class CustomSearch
 		$array_text = array();
 		for ($i=0; $i < sizeof($results); $i++) {
 			$dom = new DomDocument();
-			$dom->loadHTML($results[$i]);
+			@$dom->loadHTML($results[$i]);
 			$this->create_links($this->urls[$i],$dom);
 			$array_text2 = $this->load_text($dom);
 			$array_text = array_merge($array_text2, $array_text);
@@ -209,19 +209,19 @@ class CustomSearch
 	
 	public function create_links($url,$dom) {
 		$div = $dom->getElementById('proImg');
-		$img = $div->getElementsByTagName('img')[0]->getAttribute('src');
 	
-		$title = $dom->getElementById('proTitre')->nodeValue;
-	
+		$title = "";
+		$elements = $dom->getElementsByTagName("title");
+		$title = $elements[0]->nodeValue;
+		
 		$desc = "";
-		$listeDiv = $dom->getElementsByTagName('div');
-		foreach ($listeDiv as $div) {
-			if($div->getAttribute('class') == "desc simple_wysiwyg") {
-				$desc = $div->getElementsByTagName('p')[0]->nodeValue;
-				break;
+		$elements = $dom->getElementsByTagName("meta");
+		foreach($elements as $element) {
+			if($element->getAttribute('name')=="description") {
+				$desc = $element->getAttribute('content');
 			}
 		}
-		$link = new Link($url,$title,$img,$desc);
+		$link = new Link($url,$title,$desc);
 		$this->links[] = $link;
 	}
 
