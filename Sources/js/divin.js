@@ -45,6 +45,10 @@ $(document).ready(function(){
 
 				for (var key in data.dbpedia_desc) {
 					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
+						if( data.dbpedia_desc[key][i][0] !== undefined && data.dbpedia_desc[key][i][0].label !== undefined &&
+								data.dbpedia_desc[key][i][1] !== undefined && data.dbpedia_desc[key][i][1].text !== undefined &&
+								data.dbpedia_desc[key][i][2] !== undefined && data.dbpedia_desc[key][i][2].photo !== undefined &&
+								data.dbpedia_desc[key][i][3] !== undefined && data.dbpedia_desc[key][i][3].wiki !== undefined)
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
 					}
                 }
