@@ -15,6 +15,43 @@
 		private $db = null;
 		private $sparqlorg = null;
 		
+		
+		private function connection() {
+			if(!$this->db) {
+				$this->db = sparql_connect( "http://dbpedia.org/sparql" );
+				if( !$this->db ) { print $db->errno() . ": " . $db->error(). "\n"; exit; }
+				foreach($this->prefix_tab as $key => $prefix) {
+					$this->db->ns($key, $prefix);
+				}
+			}
+		}
+		
+		private function performQuery($sparql) {
+			$result = $this->db->query( $sparql );
+			if( !$result ) { print $this->db->errno() . ": " . $this->db->error(). "\n"; exit; }
+		
+			return $result->fetch_all();
+		}
+		
+		public function getDBPediaInfos($URI) {
+			$this->connection();
+			$sparql = "select * where {
+						{ <".$URI."> rdfs:label ?label.
+							  FILTER (langMatches (lang (?label) , \"en\")) }
+						UNION
+							{ <".$URI."> rdfs:comment ?text.
+							  FILTER (langMatches (lang (?text) , \"en\"))}
+						UNION
+							{ <".$URI."> foaf:depiction ?photo.}
+						UNION
+							{ <".$URI."> foaf:isPrimaryTopicOf ?wiki.}
+						UNION
+							{ <".$URI."> dbo:wikiPageExternalLink ?pages_liees.}
+						}	";
+		
+			return $this->performQuery($sparql);
+		}
+		
 		private function connection_dbpedia() {
 			if(!$this->db) {
 				$this->db = sparql_connect( "http://fr.dbpedia.org/sparql" );
@@ -36,9 +73,8 @@
 		}
 		
 		private function performQuery_dbpedia($sparql) {
-			$result = $this->db->query( $sparql ); 
+			$result = $this->db->query( $sparql );
 			if( !$result ) { print $this->db->errno() . ": " . $this->db->error(). "\n"; exit; }
-			 
 			return $result->fetch_all();
 		}
 		
@@ -49,7 +85,7 @@
 			return $result->fetch_all();
 		}
 		
-		public function getDBPediaInfos($URI) {
+		/*public function getDBPediaInfos($URI) {
 			$this->connection_dbpedia();
 			$sparql = "select * where {
 						{ <".$URI."> rdfs:label ?label. 
@@ -64,9 +100,8 @@
 						UNION
 							{ <".$URI."> dbo:wikiPageExternalLink ?pages_liees.}
 						}	";
-						
 			return $this->performQuery_dbpedia($sparql);
-		}
+		}*/
 		
 		public function getInfinivinRDFInfos($key_word) {
 			$this->connection_sparqlorg();
@@ -82,6 +117,7 @@
 					   }";
 			//return json_encode($sparql);
 			$temp = $this->performQuery_sparqlorg($sparql);
+			$return = array();
 			foreach($temp as $key => $value) {
 				$return[] = $value;
 			}
@@ -102,15 +138,10 @@
 					   }";
 			//return json_encode($sparql);
 			$temp = $this->performQuery_sparqlorg($sparql);
+			$return = array();
 			foreach($temp as $key => $value) {
 				$return[] = $value;
 			}
 			return $return;
-		}
-		
-		public function getWineRecettes($URI){
-			$sparql = "select * where {
-					      ?obj dbo:ingredient ".$URI.".}";
-			return performQuery_dbpedia($sparql);
 		}
 	}

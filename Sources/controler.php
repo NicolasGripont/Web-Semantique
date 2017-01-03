@@ -95,7 +95,9 @@ if($page == "search") {
 		//pour chaque label, on parcourt les uris donnees et on recupere les infos
 		foreach(array_unique($groupURI[1]) as $URI) {
 			$infos = $spq->getDBPediaInfos($URI);
-			$response["dbpedia_desc"][$label][] = $infos;
+			if(!empty($infos[0])) {
+				$response["dbpedia_desc"][$label][] = $infos;
+			}
 		}
 	}
 	
