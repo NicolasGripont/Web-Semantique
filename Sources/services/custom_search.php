@@ -138,7 +138,7 @@ class CustomSearch
 		$array_text = array();
 		foreach ($results as $result) {
 			$dom = new DomDocument();
-			@$dom->loadHTML($result);
+			$dom->loadHTML($result);
 			if($i < sizeof($this->urls)) {
 				$this->create_links($this->urls[$i],$dom);
 			}
@@ -165,8 +165,17 @@ class CustomSearch
 	
 	private function load_text($dom) {
 		$arrayP = array();
+		
+		//on récupère la meta description
+		$elements = $dom->getElementsByTagName("meta");
+		foreach($elements as $element) {
+			if($element->getAttribute('name')=="description") {
+				$arrayP[] = $element->getAttribute('content');
+			}
+		}
+		
 		//on recupere le premier descriptif du vin
-		$elem1 = $dom->getElementById('proDesc');
+		/*$elem1 = $dom->getElementById('proDesc');
 		if($elem1->hasChildNodes()) {
 			foreach ($elem1->childNodes as $text) {
 				if(trim($text->nodeValue) !== "") {
@@ -196,7 +205,7 @@ class CustomSearch
 					}
 				}
 			}
-		}
+		}*/
 		return $arrayP;
 	}
 	
