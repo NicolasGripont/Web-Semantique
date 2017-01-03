@@ -12,6 +12,10 @@ a {
   color: white;
 }
 
+p {
+  text-align: justify;
+}
+
 h1 {
 	text-align: center;
 }
@@ -72,7 +76,7 @@ div#research{
   margin: auto;
   background: rgba(255, 255, 255, 0.7);
   color: black;
-  width: 1000px;
+  width: 1100px;
   padding: 10px;
   margin-top: 10px;
   border-radius: 3px;
@@ -136,22 +140,23 @@ div#div_search_bar{
 }
 
 .divDomainContent {
-  margin-left: 10px;
-  width: 900px;
+  margin-left: 20px;
+  width: 800px;
 }
 
 .divImgDomain {
-  width: 290px;
+  width: 230px;
   margin-top: 20px;
 }
 
 .divImgDomain img {
-  width: 280px;
+  width: 230px;
   margin: auto;
 }
 
 .resultat {
-  margin: 0px;
+  margin: auto;
+  margin-top: 10px;
 }
 
 .resultat *{

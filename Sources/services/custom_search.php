@@ -212,10 +212,12 @@ class CustomSearch
 	public function create_links($url,$dom) {
 		$div = $dom->getElementById('proImg');
 	
-		$title = "";
+		$title = $url;
 		$elements = $dom->getElementsByTagName("title");
 		@$title = $elements[0]->nodeValue;
-		
+		if($title == "") {
+			$title = $url;
+		}
 		$desc = "";
 		$elements = $dom->getElementsByTagName("meta");
 		foreach($elements as $element) {
