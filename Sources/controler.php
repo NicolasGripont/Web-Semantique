@@ -92,7 +92,7 @@ if($page == "search") {
 		foreach(array_unique($groupURI[1]) as $URI) {
 			$infos = $spq->getDBPediaInfos($URI);
 			if(!empty($infos[0])) {
-				$response["dbpedia_desc"][$label][] = $infos;
+				$response["dbpedia_desc"][$infos[0]['label']] = $infos;
 			}
 		}
 	}
