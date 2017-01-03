@@ -175,7 +175,7 @@ class CustomSearch
 		}
 		
 		//on recupere le premier descriptif du vin
-		/*$elem1 = $dom->getElementById('proDesc');
+		$elem1 = $dom->getElementById('proDesc');
 		if($elem1->hasChildNodes()) {
 			foreach ($elem1->childNodes as $text) {
 				if(trim($text->nodeValue) !== "") {
@@ -205,7 +205,7 @@ class CustomSearch
 					}
 				}
 			}
-		}*/
+		}
 		return $arrayP;
 	}
 	
