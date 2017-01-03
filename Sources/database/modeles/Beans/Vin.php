@@ -21,7 +21,7 @@ class Vin
     * Setter the $_name container
     * @param string name of wine
     */
-    public function setName(string $name)
+    public function setName($name)
     {
     	$this->_name = $name;
     	return $this;
