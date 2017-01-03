@@ -174,7 +174,7 @@ class CustomSearch
 		
 		//on recupere le premier descriptif du vin
 		$elem1 = $dom->getElementById('proDesc');
-		if($elem1->hasChildNodes()) {
+		if(!empty($elem1) && $elem1->hasChildNodes()) {
 			foreach ($elem1->childNodes as $text) {
 				if(trim($text->nodeValue) !== "") {
 					$arrayP[] = $text->nodeValue;
@@ -184,7 +184,7 @@ class CustomSearch
 		
 		//on recupere le deuxième descriptif du vin
 		$elem2 = $dom->getElementById('proCara');
-		if($elem2->hasChildNodes()) {
+		if(!empty($elem2) && $elem2->hasChildNodes()) {
 			foreach ($elem2->childNodes as $text) {
 				if(trim($text->nodeValue) !== "") {
 					$arrayP[] = $text->nodeValue;
@@ -194,12 +194,14 @@ class CustomSearch
 
 		//on recupere les textes suivants
 		$node = $dom->getElementsByTagName("body");
-		$elem3 = $this->getElementsByClass($node[0],"div","simple_wysiwyg");
-		foreach($elem3 as $noeud) {
-			if($noeud->hasChildNodes()) {
-				foreach ($noeud->childNodes as $text) {
-					if(trim($text->nodeValue) !== "") {
-						$arrayP[] = $text->nodeValue;
+		if($node[0] !== null) {
+			$elem3 = $this->getElementsByClass($node[0],"div","simple_wysiwyg");
+			foreach($elem3 as $noeud) {
+				if($noeud->hasChildNodes()) {
+					foreach ($noeud->childNodes as $text) {
+						if(trim($text->nodeValue) !== "") {
+							$arrayP[] = $text->nodeValue;
+						}
 					}
 				}
 			}
@@ -212,7 +214,7 @@ class CustomSearch
 	
 		$title = "";
 		$elements = $dom->getElementsByTagName("title");
-		$title = $elements[0]->nodeValue;
+		@$title = $elements[0]->nodeValue;
 		
 		$desc = "";
 		$elements = $dom->getElementsByTagName("meta");
