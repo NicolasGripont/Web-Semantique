@@ -451,7 +451,7 @@ function addDomain(name, info, picture, numeroDomain) {
     domainContent.setAttribute('id', ('domain'+numeroDomain));
     domainContent.setAttribute('class', "container top-buffer divContent");
     domainContent.setAttribute('margin', "auto");
-    menu6.appendChild(divContent);
+    menu6.appendChild(domainContent);
 
     //la div qui contiendra l'image
     var divImgDomain= document.createElement('div');
