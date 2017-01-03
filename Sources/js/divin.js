@@ -42,6 +42,7 @@ $(document).ready(function(){
 				divRowTwitt.setAttribute('id','twitter-content');
 				divRowTwitt.setAttribute('class', "row");
 				$('#menu5').append(divRowTwitt);
+
 				for (var key in data.dbpedia_desc) {
 					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
@@ -56,7 +57,6 @@ $(document).ready(function(){
                     }
                 }
                 if(data.resultats != null) {
-                    alert(data.infinivin.length);
                     for (var i = 0; i < data.infinivin.length; i++) {
                         addContentArticles(data.infinivin[i].label, data.infinivin[i].uri, data.infinivin[i].desc, data.infinivin[i].picture, i);
                     }
@@ -66,6 +66,11 @@ $(document).ready(function(){
                         for (var i = 0; i < data.social.twitter.length; i++) {
                             addContentSocialTwitter(data.social.twitter[i].created_at, data.social.twitter[i].text, data.social.twitter[i].username_name, data.social.twitter[i].username_photo_profil, i)
                         }
+                    }
+                }
+                if(data.domain != null) {
+                    for (var i = 0; i < data.domain.length; i++) {
+                        addDomain(data.domain[i].domain, data.domain[i].domain_info, data.domain[i].domain_picture);
                     }
                 }
             },
@@ -82,136 +87,91 @@ $(document).ready(function(){
 //function de la structure du menu (onglet)
 function addStructureMenu() 
 {
-        //ul nav 
-        var ulNav = document.createElement("ul");
-        ulNav.setAttribute('id', "myTab");
-        ulNav.setAttribute('class', "nav nav-tabs");
+    //ul nav 
+    var ulNav = document.createElement("ul");
+    ulNav.setAttribute('id', "myTab");
+    ulNav.setAttribute('class', "nav nav-tabs");
 
-        //li **** 1er Menu **** 
-        var liNav1 = document.createElement("li");
-        liNav1.setAttribute('class', "active");
+    //li **** 1er Menu **** 
+    var liNav1 = document.createElement("li");
+    liNav1.setAttribute('class', "active");
 
-        //a
-        var liLink1 = document.createElement('a');
-        liLink1.setAttribute( 'href' , "#menu1");
-        liLink1.setAttribute( 'data-toggle' , "tab");
-        var liLink1Text = document.createTextNode("Descriptif");
-        liLink1.appendChild(liLink1Text);
+    //a
+    var liLink1 = document.createElement('a');
+    liLink1.setAttribute( 'href' , "#menu1");
+    liLink1.setAttribute( 'data-toggle' , "tab");
+    var liLink1Text = document.createTextNode("Descriptif");
+    liLink1.appendChild(liLink1Text);
 
-        liNav1.appendChild(liLink1);
-        ulNav.appendChild(liNav1);
+    liNav1.appendChild(liLink1);
+    ulNav.appendChild(liNav1);
 
-        //li **** 2er Menu **** 
-        var liNav2 = document.createElement("li");
+    //li **** 2er Menu **** 
+    var liNav2 = document.createElement("li");
 
-        //a
-        var liLink2 = document.createElement('a');
-        liLink2.setAttribute( 'href' , "#menu2");
-        liLink2.setAttribute( 'data-toggle' , "tab");
-        var liLink2Text = document.createTextNode("Articles");
-        liLink2.appendChild(liLink2Text);
+    //a
+    var liLink2 = document.createElement('a');
+    liLink2.setAttribute( 'href' , "#menu2");
+    liLink2.setAttribute( 'data-toggle' , "tab");
+    var liLink2Text = document.createTextNode("Articles");
+    liLink2.appendChild(liLink2Text);
 
-        liNav2.appendChild(liLink2);
-        ulNav.appendChild(liNav2);
+    liNav2.appendChild(liLink2);
+    ulNav.appendChild(liNav2);
 
-        //li **** 3eme Menu **** 
-        var liNav3 = document.createElement("li");
+    //li **** 6eme Menu **** 
+    var liNav6 = document.createElement("li");
 
-        //a
-        var liLink3 = document.createElement('a');
-        liLink3.setAttribute( 'href' , "#menu3");
-        liLink3.setAttribute( 'data-toggle' , "tab");
-        var liLink3Text = document.createTextNode("Résultats");
-        liLink3.appendChild(liLink3Text);
+    //a
+    var liLink6 = document.createElement('a');
+    liLink6.setAttribute( 'href' , "#menu6");
+    liLink6.setAttribute( 'data-toggle' , "tab");
+    var liLink6Text = document.createTextNode("Domaine");
+    liLink6.appendChild(liLink6Text);
 
-        liNav3.appendChild(liLink3);
-        ulNav.appendChild(liNav3);
+    liNav6.appendChild(liLink6);
+    ulNav.appendChild(liNav6);
 
-        //li **** 4eme Menu **** 
-        var liNav4 = document.createElement("li");
+    //li **** 3eme Menu **** 
+    var liNav3 = document.createElement("li");
 
-        //a
-        var liLink4 = document.createElement('a');
-        liLink4.setAttribute( 'href' , "#menu4");
-        liLink4.setAttribute( 'data-toggle' , "tab");
-        var liLink4Text = document.createTextNode("Recettes");
-        liLink4.appendChild(liLink4Text);
+    //a
+    var liLink3 = document.createElement('a');
+    liLink3.setAttribute( 'href' , "#menu3");
+    liLink3.setAttribute( 'data-toggle' , "tab");
+    var liLink3Text = document.createTextNode("Résultats");
+    liLink3.appendChild(liLink3Text);
 
-        liNav4.appendChild(liLink4);
-        ulNav.appendChild(liNav4);
+    liNav3.appendChild(liLink3);
+    ulNav.appendChild(liNav3);
 
-        //li **** 5eme Menu **** 
-        var liNav5 = document.createElement("li");
+    //li **** 4eme Menu **** 
+    var liNav4 = document.createElement("li");
 
-        //a
-        var liLink5 = document.createElement('a');
-        liLink5.setAttribute( 'href' , "#menu5");
-        liLink5.setAttribute( 'data-toggle' , "tab");
-        var imgTwitter = document.createElement('img');
-        imgTwitter.setAttribute('src','pictures/twitter_logo.png');
-        imgTwitter.setAttribute('id', "twitterLogo");
-        liLink5.appendChild(imgTwitter);
+    //a
+    var liLink4 = document.createElement('a');
+    liLink4.setAttribute( 'href' , "#menu4");
+    liLink4.setAttribute( 'data-toggle' , "tab");
+    var liLink4Text = document.createTextNode("Recettes");
+    liLink4.appendChild(liLink4Text);
 
-        liNav5.appendChild(liLink5);
-        ulNav.appendChild(liNav5);
+    liNav4.appendChild(liLink4);
+    ulNav.appendChild(liNav4);
 
-       /*//li **** 5eme Menu **** 
-        var liNav5 = document.createElement("li");
-        liNav5.setAttribute('class', "dropdown");
+    //li **** 5eme Menu **** 
+    var liNav5 = document.createElement("li");
 
-        //a
-        var liLink5 = document.createElement('a');
-        liLink5.setAttribute( 'id' , "myTabDrop1");
-        liLink5.setAttribute( 'class' , "dropdown-toggle");
-        liLink5.setAttribute( 'data-toggle' , "dropdown");
-        liLink5.setAttribute( 'href' , "#");
+    //a
+    var liLink5 = document.createElement('a');
+    liLink5.setAttribute( 'href' , "#menu5");
+    liLink5.setAttribute( 'data-toggle' , "tab");
+    var imgTwitter = document.createElement('img');
+    imgTwitter.setAttribute('src','pictures/twitter_logo.png');
+    imgTwitter.setAttribute('id', "twitterLogo");
+    liLink5.appendChild(imgTwitter);
 
-        var liLink5Text = document.createTextNode("Autres Recherches");
-        liLink5.appendChild(liLink5Text);
-
-        var bCarret = document.createElement('b');
-        bCarret.setAttribute( 'class' , "caret");
-        liLink5.appendChild(bCarret);
-
-        // ulSubMenu
-        var ulSubMenu = document.createElement("ul");
-        ulSubMenu.setAttribute('aria-labelledby', "myTabDrop1")
-        ulSubMenu.setAttribute('role', "menu")
-        ulSubMenu.setAttribute('class', "dropdown-menu")
-
-        //SubMenu 1
-        var liSubMenu1 = document.createElement("li");
-
-        var liSubMenuLink1 = document.createElement('a');
-        liSubMenuLink1.setAttribute( 'data-toggle' , "tab");
-        liSubMenuLink1.setAttribute( 'href' , "#dropdown1");
-
-        var liSubMenuLink1Text = document.createTextNode("Option 1");
-        liSubMenuLink1.appendChild(liSubMenuLink1Text);
-
-        liSubMenu1.appendChild(liSubMenuLink1);
-        ulSubMenu.appendChild(liSubMenu1);
-
-        //SubMenu 1
-        var liSubMenu2 = document.createElement("li");
-
-        var liSubMenuLink2 = document.createElement('a');
-        liSubMenuLink2.setAttribute( 'data-toggle' , "tab");
-        liSubMenuLink2.setAttribute( 'href' , "#dropdown2");
-
-        var liSubMenuLink2Text = document.createTextNode("Option 2");
-        liSubMenuLink2.appendChild(liSubMenuLink2Text);
-
-        liSubMenu2.appendChild(liSubMenuLink2);
-        ulSubMenu.appendChild(liSubMenu2);
-
-        liNav5.appendChild(ulSubMenu);
-
-
-
-        liNav5.appendChild(liLink5);
-        ulNav.appendChild(liNav5);
-	*/
+    liNav5.appendChild(liLink5);
+    ulNav.appendChild(liNav5);
 
     $( "div#container").append(ulNav);
 return;
@@ -250,6 +210,11 @@ function addStructureContentMenu()
     divMenu5.setAttribute('id', "menu5");
     divMenu5.setAttribute('class', "tab-pane fade");
 
+    //div menu5 
+    var divMenu6 = document.createElement("div");
+    divMenu6.setAttribute('id', "menu6");
+    divMenu6.setAttribute('class', "tab-pane fade");
+
     /*//div subMenu1 
     var divSubMenu1 = document.createElement("div");
     divSubMenu1.setAttribute('id', "dropdown1");
@@ -276,6 +241,7 @@ function addStructureContentMenu()
 
     divContent.appendChild(divMenu1);
     divContent.appendChild(divMenu2);
+    divContent.appendChild(divMenu6);
     divContent.appendChild(divMenu3);
     divContent.appendChild(divMenu4);
     divContent.appendChild(divMenu5);
@@ -441,3 +407,38 @@ function addContentSocialTwitter(created_at, text, username, username_photo_prof
     pDescription.appendChild(pText);
 
 }
+
+function addDomain(name, info, picture) {
+    var domainContent = document.getElementById('menu6');
+
+    //la div qui contiendra l'image
+    var divImgDomain= document.createElement('div');
+    divImgDomain.setAttribute('class', 'divImgDomain');
+    domainContent.appendChild(divImgDomain);
+
+    //ajout de l'image
+    var img= document.createElement('img');
+    img.setAttribute('class', 'imageDomain');
+    img.setAttribute('src', picture);
+    divImgDomain.appendChild(img);  
+
+
+    //ajoute la div des infos du domaine
+    var divDomainContent= document.createElement('div');
+    divDomainContent.setAttribute('class', 'divDomainContent');
+    domainContent.appendChild(divDomainContent);
+    
+    //on ajoute le titre
+    var h3Title= document.createElement('h3');
+    divDomainContent.appendChild(h3Title);
+    var h3Text = document.createTextNode(name);
+    h3Title.appendChild(h3Text);
+
+    //ajout de la description du domain
+    var pDescription = document.createElement("p");
+    divDomainContent.appendChild(pDescription);
+    var pText = document.createTextNode(info);
+    pDescription.appendChild(pText);
+}
+
+
