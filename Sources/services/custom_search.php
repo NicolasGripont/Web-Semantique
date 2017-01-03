@@ -9,7 +9,7 @@ class CustomSearch
 {
 	private static $baseUrl = "https://www.googleapis.com/customsearch/v1";
 
-	private static $key = "AIzaSyBeV2zLuUB_tufpfzL4cPFJl8_P2VL8R5E";//"AIzaSyAQ1rgsSDdetI6uhC9egwf_OqdDprHwB-g"; //"AIzaSyBQhROXNGtRsvRaDvDQeax-Q5S33-U2yKQ";
+	private static $key = "AIzaSyDEOeWub1lWnRmRRNkCKhUhewRsUkI1UiQ";//"AIzaSyBeV2zLuUB_tufpfzL4cPFJl8_P2VL8R5E";//"AIzaSyAQ1rgsSDdetI6uhC9egwf_OqdDprHwB-g"; //"AIzaSyBQhROXNGtRsvRaDvDQeax-Q5S33-U2yKQ";
 
 	private static $cx = "013284499051722939158:hxzrjba3w-c";//"016014982774890444637:tirltd59_os";
 
