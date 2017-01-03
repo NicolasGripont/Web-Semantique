@@ -43,11 +43,11 @@ $(document).ready(function(){
 				divRowTwitt.setAttribute('class', "row");
 				$('#menu5').append(divRowTwitt);
 
-				for (var key in data.dbpedia_desc) {
+				/*for (var key in data.dbpedia_desc) {
 					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
 					}
-                }
+                }*/
                 if(data.infinivin != null) {
                     for (var i = 0; i < data.infinivin.length; i++) {
                         if(data.infinivin[i].desc != "null")
@@ -56,9 +56,9 @@ $(document).ready(function(){
                             addContentArticles(data.infinivin[i].label, data.infinivin[i].uri, "Aucune description", data.infinivin[i].picture, i);
                     }
                 }
-                if(data.resultats != null) {
-                    for (var i = 0; i < data.infinivin.length; i++) {
-                        addContentArticles(data.infinivin[i].label, data.infinivin[i].uri, data.infinivin[i].desc, data.infinivin[i].picture, i);
+                if(data.articles != null) {
+                    for (var i = 0; i < data.articles.length; i++) {
+                        addContentResultats(data.articles[i].title, data.articles[i].url, data.articles[i].desc, i);
                     }
                 }
                 if(data.social != null) {
@@ -304,6 +304,39 @@ function addContentDescriptif(titre, description, srcImage, srcWiki, numeroDesc)
 
 }
 
+function addContentResultats(titre, lien, description, numeroResultat)
+{
+    var menu3 = document.getElementById('menu3');
+
+    //div de article
+    var divContent= document.createElement('div');
+    divContent.setAttribute('id', ('resultat'+numeroResultat));
+    divContent.setAttribute('class', "container top-buffer");
+    divContent.setAttribute('margin', "auto");
+    menu3.appendChild(divContent);
+    
+    //ajoute la div du texte
+    var divResultatContent= document.createElement('div');
+    divResultatContent.setAttribute('id', ('divResultatContent'+numeroResultat));
+    divResultatContent.setAttribute('class', "col-md-9");
+    divContent.appendChild(divResultatContent);
+    
+    //on ajoute le titre
+    var h3Title= document.createElement('h3');
+    divResultatContent.appendChild(h3Title);
+    var aTitle = document.createElement('a');
+    aTitle.setAttribute( 'href' , lien);
+    var aText = document.createTextNode(titre);
+    h3Title.appendChild(aTitle);
+    aTitle.appendChild(aText);
+
+    //ajout de la description
+
+    var h3Description = document.createElement("p");
+    divResultatContent.appendChild(h3Description);
+    var h3Text = document.createTextNode(description);
+    h3Description.appendChild(h3Text);
+}
 
 //ajout le contenu des articles 
 function addContentArticles(titre, lien, description, srcImage, numeroArticles)
@@ -348,7 +381,7 @@ function addContentArticles(titre, lien, description, srcImage, numeroArticles)
 
     //ajout de la description
 
-    var h3Description = document.createElement("h3");
+    var h3Description = document.createElement("p");
     divArticleContent.appendChild(h3Description);
     var h3Text = document.createTextNode(description);
     h3Description.appendChild(h3Text);

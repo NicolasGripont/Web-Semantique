@@ -117,18 +117,22 @@ div#div_search_bar{
   margin-bottom: 10px
 }
 
-.imageDomain {
-  width: 50%;
-  height: 50%;
-}
-
 .divImgDomain, .divDomainContent {
   display: inline-block;
   vertical-align: top;
-  margin-top: 10px;
 }
 
 .divDomainContent {
   margin-left: 10px;
-  width: 800px;
+  width: 900px;
+}
+
+.divImgDomain {
+  width: 290px;
+  margin-top: 20px;
+}
+
+.divImgDomain img {
+  width: 280px;
+  margin: auto;
 }
