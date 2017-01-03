@@ -146,6 +146,7 @@ class CustomSearch
 			$array_text = array_merge($array_text2, $array_text);
 		}
 		$this->texts = $array_text;
+		print_r($array_text);
 	}
 	
 	
