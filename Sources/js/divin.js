@@ -48,6 +48,14 @@ $(document).ready(function(){
 					}
                 }
                 if(data.infinivin != null) {
+                    for (var i = 0; i < data.infinivin.length; i++) {
+                        if(data.infinivin[i].desc != "null")
+                            addContentArticles(data.infinivin[i].label, data.infinivin[i].uri, data.infinivin[i].desc, data.infinivin[i].picture, i);
+                        else
+                            addContentArticles(data.infinivin[i].label, data.infinivin[i].uri, "Aucune description", data.infinivin[i].picture, i);
+                    }
+                }
+                if(data.resultats != null) {
                     alert(data.infinivin.length);
                     for (var i = 0; i < data.infinivin.length; i++) {
                         addContentArticles(data.infinivin[i].label, data.infinivin[i].uri, data.infinivin[i].desc, data.infinivin[i].picture, i);
