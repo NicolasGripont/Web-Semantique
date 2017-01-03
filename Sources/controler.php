@@ -49,10 +49,6 @@ if($page == "search") {
 		echo("1' - Recherche sociales : " . (time() - $t) . "s<br>");
 		$t = time();
 	}
-
-	// 1' - Recherche sur l'api Wine
-
-	// 1' - Recherche sur l'api Food
 	
 	// 2 - Extraction des résultats
 	$paragraphes = $c->get_texts();
