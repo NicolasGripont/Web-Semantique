@@ -43,11 +43,11 @@ $(document).ready(function(){
 				divRowTwitt.setAttribute('class', "row");
 				$('#menu5').append(divRowTwitt);
 
-				/*for (var key in data.dbpedia_desc) {
+				for (var key in data.dbpedia_desc) {
 					for (var i = 0; i < data.dbpedia_desc[key].length; i++) {
 						addContentDescriptif(data.dbpedia_desc[key][i][0].label, data.dbpedia_desc[key][i][1].text, data.dbpedia_desc[key][i][2].photo, data.dbpedia_desc[key][i][3].wiki, i);
 					}
-                }*/
+                }
                 if(data.infinivin != null) {
                     for (var i = 0; i < data.infinivin.length; i++) {
                         if(data.infinivin[i].desc != "null")
