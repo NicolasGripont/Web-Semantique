@@ -74,7 +74,7 @@ $(document).ready(function(){
                 }
                 if(data.domain != null) {
                     for (var i = 0; i < data.domain.length; i++) {
-                        addDomain(data.domain[i].domain, data.domain[i].domain_info, data.domain[i].domain_picture);
+                        addDomain(data.domain[i].domain, data.domain[i].domain_info, data.domain[i].domain_picture, i);
                     }
                 }
             },
@@ -150,7 +150,7 @@ function addStructureMenu()
     ulNav.appendChild(liNav3);
 
     //li **** 4eme Menu **** 
-    var liNav4 = document.createElement("li");
+    /*var liNav4 = document.createElement("li");
 
     //a
     var liLink4 = document.createElement('a');
@@ -160,7 +160,7 @@ function addStructureMenu()
     liLink4.appendChild(liLink4Text);
 
     liNav4.appendChild(liLink4);
-    ulNav.appendChild(liNav4);
+    ulNav.appendChild(liNav4);*/
 
     //li **** 5eme Menu **** 
     var liNav5 = document.createElement("li");
@@ -266,7 +266,7 @@ function addContentDescriptif(titre, description, srcImage, srcWiki, numeroDesc)
     //div de article
     var divContent= document.createElement('div');
     divContent.setAttribute('id', ('desc'+numeroDesc));
-    divContent.setAttribute('class', "container top-buffer");
+    divContent.setAttribute('class', "container top-buffer divContent");
     divContent.setAttribute('margin', "auto");
     menu1.append(divContent);
     
@@ -279,7 +279,7 @@ function addContentDescriptif(titre, description, srcImage, srcWiki, numeroDesc)
     //ajout de l'image
     var img= document.createElement('img');
     img.setAttribute('id', ('im'+numeroDesc));
-    img.setAttribute('class', 'imageResize');
+    img.setAttribute('class', 'imageDescriptif');
     img.setAttribute('src', srcImage);
     divImgArt.appendChild(img);  
     
@@ -301,7 +301,7 @@ function addContentDescriptif(titre, description, srcImage, srcWiki, numeroDesc)
 
     //ajout de la description
 
-    var h3Description = document.createElement("h3");
+    var h3Description = document.createElement("p");
     divArticleContent.appendChild(h3Description);
     var h3Text = document.createTextNode(description);
     h3Description.appendChild(h3Text);
@@ -315,7 +315,7 @@ function addContentResultats(titre, lien, description, numeroResultat)
     //div de article
     var divContent= document.createElement('div');
     divContent.setAttribute('id', ('resultat'+numeroResultat));
-    divContent.setAttribute('class', "container top-buffer");
+    divContent.setAttribute('class', "container top-buffer resultat divContent");
     divContent.setAttribute('margin', "auto");
     menu3.appendChild(divContent);
     
@@ -350,7 +350,7 @@ function addContentArticles(titre, lien, description, srcImage, numeroArticles)
     //div de article
     var divContent= document.createElement('div');
     divContent.setAttribute('id', ('article'+numeroArticles));
-    divContent.setAttribute('class', "container top-buffer");
+    divContent.setAttribute('class', "container top-buffer divContent");
     divContent.setAttribute('margin', "auto");
     menu2.appendChild(divContent);
     
@@ -445,8 +445,15 @@ function addContentSocialTwitter(created_at, text, username, username_photo_prof
 
 }
 
-function addDomain(name, info, picture) {
-    var domainContent = document.getElementById('menu6');
+function addDomain(name, info, picture, numeroDomain) {
+    var menu6 = document.getElementById('menu6');
+
+    //div de article
+    var domainContent= document.createElement('div');
+    domainContent.setAttribute('id', ('domain'+numeroDomain));
+    domainContent.setAttribute('class', "container top-buffer divContent");
+    domainContent.setAttribute('margin', "auto");
+    menu6.appendChild(divContent);
 
     //la div qui contiendra l'image
     var divImgDomain= document.createElement('div');

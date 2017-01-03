@@ -68,10 +68,24 @@ div#research{
   border-radius: 2px 2px 0px 0px;
 }
 
+.divContent {
+  margin: auto;
+  background: rgba(255, 255, 255, 0.7);
+  color: black;
+  width: 1000px;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 3px;
+}
+
+.divContent a {
+  color: black;
+}
+
 .tweet {
   display: inline-block;
   margin: auto;
-  background: white;
+  background: rgba(255, 255, 255, 0.7);
   color: black;
   width: 600px;
   height: 130px;
@@ -85,7 +99,6 @@ div#research{
   display: inline-block;
   vertical-align: top;
   margin: auto;
-  background: white;
   color: black;
 }
 
@@ -135,4 +148,18 @@ div#div_search_bar{
 .divImgDomain img {
   width: 280px;
   margin: auto;
+}
+
+.resultat {
+  margin: 0px;
+}
+
+.resultat *{
+  width: 1000px;
+}
+
+.imageDescriptif {
+  margin-top: 25px;
+  width: 80%;
+  height: 80%;
 }
