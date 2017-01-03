@@ -45,8 +45,8 @@ class CustomSearch
 		$jsonResult = $this->execute_request();
 		$this->load_urls($jsonResult);
 		$this->get_urls_results();
-		$jsonResult = $this->execute_google_request();
-		$this->load_google_urls($jsonResult);
+		// $jsonResult = $this->execute_google_request();
+		// $this->load_google_urls($jsonResult);
 	}
 
 	private function execute_request() {
@@ -136,17 +136,14 @@ class CustomSearch
 		curl_multi_close($mh);
 		
 		$array_text = array();
-		foreach ($results as $result) {
+		for ($i=0; $i < sizeof($results); $i++) {
 			$dom = new DomDocument();
-			$dom->loadHTML($result);
-			if($i < sizeof($this->urls)) {
-				$this->create_links($this->urls[$i],$dom);
-			}
+			$dom->loadHTML($results[$i]);
+			$this->create_links($this->urls[$i],$dom);
 			$array_text2 = $this->load_text($dom);
 			$array_text = array_merge($array_text2, $array_text);
 		}
 		$this->texts = $array_text;
-		print_r($array_text);
 	}
 	
 	
